@@ -2,21 +2,21 @@
 
 namespace Enqueue\AsyncEventDispatcher;
 
-use Interop\Queue\Context;
-use Interop\Queue\Message;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 class PhpSerializerEventTransformer implements EventTransformer
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @param Context $context
+     * @param ContextInterface $context
      */
-    public function __construct(Context $context)
+    public function __construct(ContextInterface $context)
     {
         $this->context = $context;
     }
@@ -32,7 +32,7 @@ class PhpSerializerEventTransformer implements EventTransformer
     /**
      * {@inheritdoc}
      */
-    public function toEvent($eventName, Message $message)
+    public function toEvent($eventName, MessageInterface $message)
     {
         return unserialize($message->getBody());
     }

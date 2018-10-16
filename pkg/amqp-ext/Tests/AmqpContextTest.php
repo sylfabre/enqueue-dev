@@ -12,7 +12,7 @@ use Enqueue\Test\ClassExtensionTrait;
 use Interop\Amqp\Impl\AmqpMessage;
 use Interop\Amqp\Impl\AmqpQueue;
 use Interop\Amqp\Impl\AmqpTopic;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,7 @@ class AmqpContextTest extends TestCase
 
     public function testShouldImplementQueueInteropContextInterface()
     {
-        $this->assertClassImplements(Context::class, AmqpContext::class);
+        $this->assertClassImplements(ContextInterface::class, AmqpContext::class);
     }
 
     public function testCouldBeConstructedWithExtChannelAsFirstArgument()

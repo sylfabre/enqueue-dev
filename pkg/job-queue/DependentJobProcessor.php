@@ -8,12 +8,12 @@ use Enqueue\Client\TopicSubscriberInterface;
 use Enqueue\Consumption\Result;
 use Enqueue\JobQueue\Doctrine\JobStorage;
 use Enqueue\Util\JSON;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 
-class DependentJobProcessor implements Processor, TopicSubscriberInterface
+class DependentJobProcessor implements ProcessorInterface, TopicSubscriberInterface
 {
     /**
      * @var JobStorage
@@ -45,7 +45,7 @@ class DependentJobProcessor implements Processor, TopicSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public function process(Message $message, Context $context)
+    public function process(MessageInterface $message, ContextInterface $context)
     {
         $data = JSON::decode($message->getBody());
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Enqueue\RdKafka;
 
-use Interop\Queue\Queue;
-use Interop\Queue\Topic;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\TopicInterface;
 use RdKafka\TopicConf;
 
-class RdKafkaTopic implements Topic, Queue
+class RdKafkaTopic implements TopicInterface, QueueInterface
 {
     /**
      * @var string

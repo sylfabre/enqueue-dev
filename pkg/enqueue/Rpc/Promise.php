@@ -2,7 +2,7 @@
 
 namespace Enqueue\Rpc;
 
-use Interop\Queue\Message as InteropMessage;
+use Interop\Queue\MessageInterface as InteropMessage;
 
 class Promise
 {

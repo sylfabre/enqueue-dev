@@ -2,19 +2,19 @@
 
 namespace Enqueue\Rpc;
 
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 
 class RpcFactory
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @param Context $context
+     * @param ContextInterface $context
      */
-    public function __construct(Context $context)
+    public function __construct(ContextInterface $context)
     {
         $this->context = $context;
     }

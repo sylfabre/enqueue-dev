@@ -12,9 +12,9 @@ use Enqueue\Consumption\MessageReceivedExtensionInterface;
 use Enqueue\Null\NullMessage;
 use Enqueue\Null\NullQueue;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context as InteropContext;
-use Interop\Queue\Processor;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface as InteropContext;
+use Interop\Queue\ProcessorInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
@@ -266,9 +266,9 @@ class ExclusiveCommandExtensionTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createProcessorMock(): Processor
+    private function createProcessorMock(): ProcessorInterface
     {
-        return $this->createMock(Processor::class);
+        return $this->createMock(ProcessorInterface::class);
     }
 
     /**
@@ -276,9 +276,9 @@ class ExclusiveCommandExtensionTest extends TestCase
      *
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createConsumerStub($queue): Consumer
+    private function createConsumerStub($queue): ConsumerInterface
     {
-        $consumerMock = $this->createMock(Consumer::class);
+        $consumerMock = $this->createMock(ConsumerInterface::class);
         $consumerMock
             ->expects($this->any())
             ->method('getQueue')

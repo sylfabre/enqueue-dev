@@ -3,19 +3,19 @@
 namespace Enqueue\Consumption\Context;
 
 use Enqueue\Consumption\Result;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
 use Psr\Log\LoggerInterface;
 
 final class MessageResult
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @var Message
+     * @var MessageInterface
      */
     private $message;
 
@@ -34,7 +34,7 @@ final class MessageResult
      */
     private $logger;
 
-    public function __construct(Context $context, Message $message, $result, int $receivedAt, LoggerInterface $logger)
+    public function __construct(ContextInterface $context, MessageInterface $message, $result, int $receivedAt, LoggerInterface $logger)
     {
         $this->context = $context;
         $this->message = $message;
@@ -43,12 +43,12 @@ final class MessageResult
         $this->receivedAt = $receivedAt;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }
 
-    public function getMessage(): Message
+    public function getMessage(): MessageInterface
     {
         return $this->message;
     }

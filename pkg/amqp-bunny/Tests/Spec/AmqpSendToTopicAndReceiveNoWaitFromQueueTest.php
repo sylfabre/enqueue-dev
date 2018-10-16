@@ -6,7 +6,7 @@ use Enqueue\AmqpBunny\AmqpConnectionFactory;
 use Enqueue\AmqpBunny\AmqpContext;
 use Interop\Amqp\AmqpTopic;
 use Interop\Amqp\Impl\AmqpBind;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Spec\SendToTopicAndReceiveNoWaitFromQueueSpec;
 
 /**
@@ -29,7 +29,7 @@ class AmqpSendToTopicAndReceiveNoWaitFromQueueTest extends SendToTopicAndReceive
      *
      * @param AmqpContext $context
      */
-    protected function createQueue(Context $context, $queueName)
+    protected function createQueue(ContextInterface $context, $queueName)
     {
         $queue = $context->createQueue($queueName);
         $context->declareQueue($queue);
@@ -45,7 +45,7 @@ class AmqpSendToTopicAndReceiveNoWaitFromQueueTest extends SendToTopicAndReceive
      *
      * @param AmqpContext $context
      */
-    protected function createTopic(Context $context, $topicName)
+    protected function createTopic(ContextInterface $context, $topicName)
     {
         $topic = $context->createTopic($topicName);
         $topic->setType(AmqpTopic::TYPE_FANOUT);

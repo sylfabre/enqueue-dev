@@ -22,13 +22,13 @@ use Enqueue\Consumption\Result;
 use Enqueue\Null\NullQueue;
 use Enqueue\Tests\Consumption\Mock\BreakCycleExtension;
 use Enqueue\Tests\Consumption\Mock\DummySubscriptionConsumer;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context as InteropContext;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface as InteropContext;
 use Interop\Queue\Exception\SubscriptionConsumerNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -820,7 +820,7 @@ class QueueConsumerTest extends TestCase
             ->willReturnCallback(function (PreConsume $context) use ($contextStub) {
                 $this->assertSame($contextStub, $context->getContext());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
-                $this->assertInstanceOf(SubscriptionConsumer::class, $context->getSubscriptionConsumer());
+                $this->assertInstanceOf(SubscriptionConsumerInterface::class, $context->getSubscriptionConsumer());
                 $this->assertSame(10000, $context->getReceiveTimeout());
                 $this->assertSame(1, $context->getCycle());
                 $this->assertGreaterThan(0, $context->getStartTime());
@@ -1388,7 +1388,7 @@ class QueueConsumerTest extends TestCase
         $contextStub
             ->expects($this->any())
             ->method('createConsumer')
-            ->willReturnCallback(function (Queue $queue) use ($consumers) {
+            ->willReturnCallback(function (QueueInterface $queue) use ($consumers) {
                 return $consumers[$queue->getQueueName()];
             })
         ;
@@ -1447,7 +1447,7 @@ class QueueConsumerTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|InteropContext
      */
-    private function createContextStub(Consumer $consumer = null): InteropContext
+    private function createContextStub(ConsumerInterface $consumer = null): InteropContext
     {
         $context = $this->createContextWithoutSubscriptionConsumerMock();
         $context
@@ -1460,7 +1460,7 @@ class QueueConsumerTest extends TestCase
         $context
             ->expects($this->any())
             ->method('createConsumer')
-            ->willReturnCallback(function (Queue $queue) use ($consumer) {
+            ->willReturnCallback(function (QueueInterface $queue) use ($consumer) {
                 return $consumer ?: $this->createConsumerStub($queue);
             })
         ;
@@ -1469,15 +1469,15 @@ class QueueConsumerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Processor
+     * @return \PHPUnit_Framework_MockObject_MockObject|ProcessorInterface
      */
     private function createProcessorMock()
     {
-        return $this->createMock(Processor::class);
+        return $this->createMock(ProcessorInterface::class);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Processor
+     * @return \PHPUnit_Framework_MockObject_MockObject|ProcessorInterface
      */
     private function createProcessorStub()
     {
@@ -1492,11 +1492,11 @@ class QueueConsumerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     * @return \PHPUnit_Framework_MockObject_MockObject|MessageInterface
      */
-    private function createMessageMock(): Message
+    private function createMessageMock(): MessageInterface
     {
-        return $this->createMock(Message::class);
+        return $this->createMock(MessageInterface::class);
     }
 
     /**
@@ -1510,15 +1510,15 @@ class QueueConsumerTest extends TestCase
     /**
      * @param null|mixed $queue
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|Consumer
+     * @return \PHPUnit_Framework_MockObject_MockObject|ConsumerInterface
      */
-    private function createConsumerStub($queue = null): Consumer
+    private function createConsumerStub($queue = null): ConsumerInterface
     {
         if (is_string($queue)) {
             $queue = new NullQueue($queue);
         }
 
-        $consumerMock = $this->createMock(Consumer::class);
+        $consumerMock = $this->createMock(ConsumerInterface::class);
         $consumerMock
             ->expects($this->any())
             ->method('getQueue')
@@ -1529,10 +1529,10 @@ class QueueConsumerTest extends TestCase
     }
 
     /**
-     * @return SubscriptionConsumer|\PHPUnit_Framework_MockObject_MockObject
+     * @return SubscriptionConsumerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    private function createSubscriptionConsumerMock(): SubscriptionConsumer
+    private function createSubscriptionConsumerMock(): SubscriptionConsumerInterface
     {
-        return $this->createMock(SubscriptionConsumer::class);
+        return $this->createMock(SubscriptionConsumerInterface::class);
     }
 }

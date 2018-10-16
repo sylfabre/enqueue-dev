@@ -7,7 +7,7 @@ use Doctrine\DBAL\Connection;
 use Enqueue\Dbal\DbalContext;
 use Enqueue\Dbal\ManagerRegistryConnectionFactory;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 
 class ManagerRegistryConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class ManagerRegistryConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementConnectionFactoryInterface()
     {
-        $this->assertClassImplements(ConnectionFactory::class, ManagerRegistryConnectionFactory::class);
+        $this->assertClassImplements(ConnectionFactoryInterface::class, ManagerRegistryConnectionFactory::class);
     }
 
     public function testCouldBeConstructedWithEmptyConfiguration()

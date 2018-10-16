@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Enqueue\Null;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Destination;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 
-class NullConsumer implements Consumer
+class NullConsumer implements ConsumerInterface
 {
     /**
-     * @var Destination
+     * @var DestinationInterface
      */
     private $queue;
 
-    public function __construct(Destination $queue)
+    public function __construct(DestinationInterface $queue)
     {
         $this->queue = $queue;
     }
 
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->queue;
     }
@@ -29,7 +29,7 @@ class NullConsumer implements Consumer
     /**
      * @return NullMessage
      */
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         return null;
     }
@@ -37,16 +37,16 @@ class NullConsumer implements Consumer
     /**
      * @return NullMessage
      */
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         return null;
     }
 
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
     }
 
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
     }
 }

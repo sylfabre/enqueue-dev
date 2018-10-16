@@ -5,7 +5,7 @@ namespace Enqueue\Dbal\Tests;
 use Enqueue\Dbal\DbalConnectionFactory;
 use Enqueue\Dbal\DbalContext;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 
 class DbalConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +13,7 @@ class DbalConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementConnectionFactoryInterface()
     {
-        $this->assertClassImplements(ConnectionFactory::class, DbalConnectionFactory::class);
+        $this->assertClassImplements(ConnectionFactoryInterface::class, DbalConnectionFactory::class);
     }
 
     public function testShouldCreateLazyContext()

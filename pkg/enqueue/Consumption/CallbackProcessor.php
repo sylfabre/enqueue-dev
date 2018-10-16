@@ -2,11 +2,11 @@
 
 namespace Enqueue\Consumption;
 
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProcessorInterface;
 
-class CallbackProcessor implements Processor
+class CallbackProcessor implements ProcessorInterface
 {
     /**
      * @var callable
@@ -24,7 +24,7 @@ class CallbackProcessor implements Processor
     /**
      * {@inheritdoc}
      */
-    public function process(InteropMessage $message, Context $context)
+    public function process(InteropMessage $message, ContextInterface $context)
     {
         return call_user_func($this->callback, $message, $context);
     }

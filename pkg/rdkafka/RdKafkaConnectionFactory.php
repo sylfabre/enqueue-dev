@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\RdKafka;
 
-use Interop\Queue\ConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ConnectionFactoryInterface;
+use Interop\Queue\ContextInterface;
 
-class RdKafkaConnectionFactory implements ConnectionFactory
+class RdKafkaConnectionFactory implements ConnectionFactoryInterface
 {
     /**
      * @var array
@@ -53,7 +53,7 @@ class RdKafkaConnectionFactory implements ConnectionFactory
     /**
      * @return RdKafkaContext
      */
-    public function createContext(): Context
+    public function createContext(): ContextInterface
     {
         return new RdKafkaContext($this->config);
     }

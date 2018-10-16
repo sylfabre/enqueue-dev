@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Enqueue\Sqs;
 
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
 use Interop\Queue\Exception\PriorityNotSupportedException;
 use Interop\Queue\Exception\TimeToLiveNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
 
-class SqsProducer implements Producer
+class SqsProducer implements ProducerInterface
 {
     /**
      * @var int|null
@@ -33,7 +33,7 @@ class SqsProducer implements Producer
      * @param SqsDestination $destination
      * @param SqsMessage     $message
      */
-    public function send(Destination $destination, Message $message): void
+    public function send(DestinationInterface $destination, MessageInterface $message): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, SqsDestination::class);
         InvalidMessageException::assertMessageInstanceOf($message, SqsMessage::class);
@@ -80,7 +80,7 @@ class SqsProducer implements Producer
     /**
      * @return SqsProducer
      */
-    public function setDeliveryDelay(int $deliveryDelay = null): Producer
+    public function setDeliveryDelay(int $deliveryDelay = null): ProducerInterface
     {
         $this->deliveryDelay = $deliveryDelay;
 
@@ -95,7 +95,7 @@ class SqsProducer implements Producer
     /**
      * @return SqsProducer
      */
-    public function setPriority(int $priority = null): Producer
+    public function setPriority(int $priority = null): ProducerInterface
     {
         if (null === $priority) {
             return $this;
@@ -112,7 +112,7 @@ class SqsProducer implements Producer
     /**
      * @return SqsProducer
      */
-    public function setTimeToLive(int $timeToLive = null): Producer
+    public function setTimeToLive(int $timeToLive = null): ProducerInterface
     {
         if (null === $timeToLive) {
             return $this;

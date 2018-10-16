@@ -6,7 +6,7 @@ use Enqueue\Null\NullMessage;
 use Enqueue\Null\NullProducer;
 use Enqueue\Null\NullTopic;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Producer;
+use Interop\Queue\ProducerInterface;
 use PHPUnit\Framework\TestCase;
 
 class NullProducerTest extends TestCase
@@ -15,7 +15,7 @@ class NullProducerTest extends TestCase
 
     public function testShouldImplementProducerInterface()
     {
-        $this->assertClassImplements(Producer::class, NullProducer::class);
+        $this->assertClassImplements(ProducerInterface::class, NullProducer::class);
     }
 
     public function testCouldBeConstructedWithoutAnyArguments()

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Enqueue\Mongodb;
 
-use Interop\Queue\ConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ConnectionFactoryInterface;
+use Interop\Queue\ContextInterface;
 use MongoDB\Client;
 
-class MongodbConnectionFactory implements ConnectionFactory
+class MongodbConnectionFactory implements ConnectionFactoryInterface
 {
     /**
      * @var array
@@ -54,7 +54,7 @@ class MongodbConnectionFactory implements ConnectionFactory
     /**
      * @return MongodbContext
      */
-    public function createContext(): Context
+    public function createContext(): ContextInterface
     {
         $client = new Client($this->config['dsn']);
 

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Enqueue\Fs;
 
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\DeliveryDelayNotSupportedException;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
 use Interop\Queue\Exception\PriorityNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
 use Makasim\File\TempFile;
 
-class FsProducer implements Producer
+class FsProducer implements ProducerInterface
 {
     /**
      * @var float|int|null
@@ -34,7 +34,7 @@ class FsProducer implements Producer
      * @param FsDestination $destination
      * @param FsMessage     $message
      */
-    public function send(Destination $destination, Message $message): void
+    public function send(DestinationInterface $destination, MessageInterface $message): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, FsDestination::class);
         InvalidMessageException::assertMessageInstanceOf($message, FsMessage::class);
@@ -67,7 +67,7 @@ class FsProducer implements Producer
         });
     }
 
-    public function setDeliveryDelay(int $deliveryDelay = null): Producer
+    public function setDeliveryDelay(int $deliveryDelay = null): ProducerInterface
     {
         if (null === $deliveryDelay) {
             return $this;
@@ -81,7 +81,7 @@ class FsProducer implements Producer
         return null;
     }
 
-    public function setPriority(int $priority = null): Producer
+    public function setPriority(int $priority = null): ProducerInterface
     {
         if (null === $priority) {
             return $this;
@@ -95,7 +95,7 @@ class FsProducer implements Producer
         return null;
     }
 
-    public function setTimeToLive(int $timeToLive = null): Producer
+    public function setTimeToLive(int $timeToLive = null): ProducerInterface
     {
         $this->timeToLive = $timeToLive;
 

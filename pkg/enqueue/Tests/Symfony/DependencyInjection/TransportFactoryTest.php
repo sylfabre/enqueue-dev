@@ -8,8 +8,8 @@ use Enqueue\Rpc\RpcClient;
 use Enqueue\Rpc\RpcFactory;
 use Enqueue\Symfony\DependencyInjection\TransportFactory;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\ConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ConnectionFactoryInterface;
+use Interop\Queue\ContextInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -339,7 +339,7 @@ class TransportFactoryTest extends TestCase
     public function testShouldBuildContext()
     {
         $container = new ContainerBuilder();
-        $container->register('enqueue.transport.default.connection_factory', ConnectionFactory::class);
+        $container->register('enqueue.transport.default.connection_factory', ConnectionFactoryInterface::class);
 
         $transport = new TransportFactory('default');
 
@@ -370,7 +370,7 @@ class TransportFactoryTest extends TestCase
     public function testShouldBuildQueueConsumerWithDefaultOptions()
     {
         $container = new ContainerBuilder();
-        $container->register('enqueue.transport.default.context', Context::class);
+        $container->register('enqueue.transport.default.context', ContextInterface::class);
 
         $transport = new TransportFactory('default');
 
@@ -396,7 +396,7 @@ class TransportFactoryTest extends TestCase
     public function testShouldBuildQueueConsumerWithCustomOptions()
     {
         $container = new ContainerBuilder();
-        $container->register('enqueue.transport.default.context', Context::class);
+        $container->register('enqueue.transport.default.context', ContextInterface::class);
 
         $transport = new TransportFactory('default');
 
@@ -421,7 +421,7 @@ class TransportFactoryTest extends TestCase
     public function testShouldBuildRpcClientWithDefaultOptions()
     {
         $container = new ContainerBuilder();
-        $container->register('enqueue.transport.default.context', Context::class);
+        $container->register('enqueue.transport.default.context', ContextInterface::class);
 
         $transport = new TransportFactory('default');
 

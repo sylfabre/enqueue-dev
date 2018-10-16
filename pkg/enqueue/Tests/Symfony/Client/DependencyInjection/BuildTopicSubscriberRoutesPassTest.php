@@ -7,9 +7,9 @@ use Enqueue\Client\RouteCollection;
 use Enqueue\Client\TopicSubscriberInterface;
 use Enqueue\Symfony\Client\DependencyInjection\BuildTopicSubscriberRoutesPass;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProcessorInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -55,7 +55,7 @@ class BuildTopicSubscriberRoutesPassTest extends TestCase
         $container->register('enqueue.client.aName.route_collection', RouteCollection::class)
             ->addArgument([])
         ;
-        $container->register('aProcessor', Processor::class)
+        $container->register('aProcessor', ProcessorInterface::class)
             ->setFactory('foo')
             ->addTag('enqueue.topic_subscriber')
         ;
@@ -333,10 +333,10 @@ class BuildTopicSubscriberRoutesPassTest extends TestCase
 
     private function createTopicSubscriberProcessor($topicSubscriberReturns = ['aTopic'])
     {
-        $processor = new class() implements Processor, TopicSubscriberInterface {
+        $processor = new class() implements ProcessorInterface, TopicSubscriberInterface {
             public static $return;
 
-            public function process(InteropMessage $message, Context $context)
+            public function process(InteropMessage $message, ContextInterface $context)
             {
             }
 

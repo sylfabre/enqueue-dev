@@ -4,12 +4,12 @@ namespace Enqueue\AsyncEventDispatcher;
 
 use Enqueue\Client\CommandSubscriberInterface;
 use Enqueue\Consumption\Result;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class AsyncProcessor implements Processor, CommandSubscriberInterface
+class AsyncProcessor implements ProcessorInterface, CommandSubscriberInterface
 {
     /**
      * @var Registry
@@ -36,7 +36,7 @@ class AsyncProcessor implements Processor, CommandSubscriberInterface
         $this->dispatcher = $dispatcher;
     }
 
-    public function process(Message $message, Context $context)
+    public function process(MessageInterface $message, ContextInterface $context)
     {
         if (false == $eventName = $message->getProperty('event_name')) {
             return Result::reject('The message is missing "event_name" property');

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue\Null;
 
-use Interop\Queue\Queue;
+use Interop\Queue\QueueInterface;
 
-class NullQueue implements Queue
+class NullQueue implements QueueInterface
 {
     /**
      * @var string

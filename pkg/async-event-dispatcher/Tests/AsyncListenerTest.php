@@ -8,8 +8,8 @@ use Enqueue\AsyncEventDispatcher\Registry;
 use Enqueue\Null\NullMessage;
 use Enqueue\Null\NullQueue;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Producer;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\ProducerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -137,19 +137,19 @@ class AsyncListenerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Producer
+     * @return \PHPUnit_Framework_MockObject_MockObject|ProducerInterface
      */
     private function createProducerMock()
     {
-        return $this->createMock(Producer::class);
+        return $this->createMock(ProducerInterface::class);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Context
+     * @return \PHPUnit_Framework_MockObject_MockObject|ContextInterface
      */
     private function createContextMock()
     {
-        return $this->createMock(Context::class);
+        return $this->createMock(ContextInterface::class);
     }
 
     /**

@@ -2,14 +2,14 @@
 
 namespace Enqueue\AsyncEventDispatcher;
 
-use Interop\Queue\Context;
-use Interop\Queue\Queue;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\QueueInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 class AsyncListener
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
@@ -19,7 +19,7 @@ class AsyncListener
     private $registry;
 
     /**
-     * @var Queue
+     * @var QueueInterface
      */
     private $eventQueue;
 
@@ -29,15 +29,15 @@ class AsyncListener
     private $syncMode;
 
     /**
-     * @param Context      $context
+     * @param ContextInterface      $context
      * @param Registry     $registry
-     * @param Queue|string $eventQueue
+     * @param QueueInterface|string $eventQueue
      */
-    public function __construct(Context $context, Registry $registry, $eventQueue)
+    public function __construct(ContextInterface $context, Registry $registry, $eventQueue)
     {
         $this->context = $context;
         $this->registry = $registry;
-        $this->eventQueue = $eventQueue instanceof Queue ? $eventQueue : $context->createQueue($eventQueue);
+        $this->eventQueue = $eventQueue instanceof QueueInterface ? $eventQueue : $context->createQueue($eventQueue);
     }
 
     public function __invoke(Event $event, $eventName)

@@ -16,7 +16,7 @@ use Enqueue\RdKafka\RdKafkaConnectionFactory;
 use Enqueue\Redis\RedisConnectionFactory;
 use Enqueue\Sqs\SqsConnectionFactory;
 use Enqueue\Stomp\StompConnectionFactory;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 
 final class Resources
 {
@@ -173,8 +173,8 @@ final class Resources
     public static function addConnection(string $connectionFactoryClass, array $schemes, array $extensions, string $package): void
     {
         if (class_exists($connectionFactoryClass)) {
-            if (false == (new \ReflectionClass($connectionFactoryClass))->implementsInterface(ConnectionFactory::class)) {
-                throw new \InvalidArgumentException(sprintf('The connection factory class "%s" must implement "%s" interface.', $connectionFactoryClass, ConnectionFactory::class));
+            if (false == (new \ReflectionClass($connectionFactoryClass))->implementsInterface(ConnectionFactoryInterface::class)) {
+                throw new \InvalidArgumentException(sprintf('The connection factory class "%s" must implement "%s" interface.', $connectionFactoryClass, ConnectionFactoryInterface::class));
             }
         }
 

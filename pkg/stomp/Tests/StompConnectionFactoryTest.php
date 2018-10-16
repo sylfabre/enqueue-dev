@@ -5,7 +5,7 @@ namespace Enqueue\Stomp\Tests;
 use Enqueue\Stomp\StompConnectionFactory;
 use Enqueue\Stomp\StompContext;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 
 class StompConnectionFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,7 +13,7 @@ class StompConnectionFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementConnectionFactoryInterface()
     {
-        $this->assertClassImplements(ConnectionFactory::class, StompConnectionFactory::class);
+        $this->assertClassImplements(ConnectionFactoryInterface::class, StompConnectionFactory::class);
     }
 
     public function testShouldCreateLazyContext()

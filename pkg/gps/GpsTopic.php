@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue\Gps;
 
-use Interop\Queue\Topic;
+use Interop\Queue\TopicInterface;
 
-class GpsTopic implements Topic
+class GpsTopic implements TopicInterface
 {
     /**
      * @var string

@@ -7,9 +7,9 @@ use Enqueue\Client\Route;
 use Enqueue\Client\RouteCollection;
 use Enqueue\Symfony\Client\DependencyInjection\BuildCommandSubscriberRoutesPass;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProcessorInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -55,7 +55,7 @@ class BuildCommandSubscriberRoutesPassTest extends TestCase
         $container->register('enqueue.client.aName.route_collection', RouteCollection::class)
             ->addArgument([])
         ;
-        $container->register('aProcessor', Processor::class)
+        $container->register('aProcessor', ProcessorInterface::class)
             ->setFactory('foo')
             ->addTag('enqueue.command_subscriber')
         ;
@@ -371,10 +371,10 @@ class BuildCommandSubscriberRoutesPassTest extends TestCase
 
     private function createCommandSubscriberProcessor($commandSubscriberReturns = ['aCommand'])
     {
-        $processor = new class() implements Processor, CommandSubscriberInterface {
+        $processor = new class() implements ProcessorInterface, CommandSubscriberInterface {
             public static $return;
 
-            public function process(InteropMessage $message, Context $context)
+            public function process(InteropMessage $message, ContextInterface $context)
             {
             }
 

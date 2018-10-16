@@ -8,7 +8,7 @@ use Enqueue\Client\Driver\StompManagementClient;
 use Enqueue\Dsn\Dsn;
 use Enqueue\Stomp\StompConnectionFactory;
 use Interop\Amqp\AmqpConnectionFactory;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 
 final class DriverFactory implements DriverFactoryInterface
 {
@@ -28,7 +28,7 @@ final class DriverFactory implements DriverFactoryInterface
         $this->routeCollection = $routeCollection;
     }
 
-    public function create(ConnectionFactory $factory, string $dsn, array $config): DriverInterface
+    public function create(ConnectionFactoryInterface $factory, string $dsn, array $config): DriverInterface
     {
         $dsn = new Dsn($dsn);
 

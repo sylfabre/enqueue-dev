@@ -2,11 +2,11 @@
 
 namespace Enqueue\Tests\Consumption\Mock;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\SubscriptionConsumerInterface;
 
-class DummySubscriptionConsumer implements SubscriptionConsumer
+class DummySubscriptionConsumer implements SubscriptionConsumerInterface
 {
     private $subscriptions = [];
 
@@ -26,12 +26,12 @@ class DummySubscriptionConsumer implements SubscriptionConsumer
         }
     }
 
-    public function subscribe(Consumer $consumer, callable $callback): void
+    public function subscribe(ConsumerInterface $consumer, callable $callback): void
     {
         $this->subscriptions[$consumer->getQueue()->getQueueName()] = [$consumer, $callback];
     }
 
-    public function unsubscribe(Consumer $consumer): void
+    public function unsubscribe(ConsumerInterface $consumer): void
     {
         unset($this->subscriptions[$consumer->getQueue()->getQueueName()]);
     }

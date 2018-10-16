@@ -3,7 +3,7 @@
 namespace  Enqueue\Client\Driver;
 
 use Interop\Amqp\AmqpQueue;
-use Interop\Queue\Queue as InteropQueue;
+use Interop\Queue\QueueInterface as InteropQueue;
 
 class RabbitMqDriver extends AmqpDriver
 {

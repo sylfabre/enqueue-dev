@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Enqueue\RdKafka;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\PurgeQueueNotSupportedException;
 use Interop\Queue\Exception\SubscriptionConsumerNotSupportedException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
-use Interop\Queue\Topic;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
+use Interop\Queue\TopicInterface;
 use RdKafka\Conf;
 use RdKafka\KafkaConsumer;
 use RdKafka\Producer as VendorProducer;
 use RdKafka\TopicConf;
 
-class RdKafkaContext implements Context
+class RdKafkaContext implements ContextInterface
 {
     use SerializerAwareTrait;
 
@@ -36,7 +36,7 @@ class RdKafkaContext implements Context
     private $conf;
 
     /**
-     * @var Producer
+     * @var ProducerInterface
      */
     private $producer;
 
@@ -59,7 +59,7 @@ class RdKafkaContext implements Context
     /**
      * @return RdKafkaMessage
      */
-    public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
+    public function createMessage(string $body = '', array $properties = [], array $headers = []): MessageInterface
     {
         return new RdKafkaMessage($body, $properties, $headers);
     }
@@ -67,7 +67,7 @@ class RdKafkaContext implements Context
     /**
      * @return RdKafkaTopic
      */
-    public function createTopic(string $topicName): Topic
+    public function createTopic(string $topicName): TopicInterface
     {
         return new RdKafkaTopic($topicName);
     }
@@ -75,12 +75,12 @@ class RdKafkaContext implements Context
     /**
      * @return RdKafkaTopic
      */
-    public function createQueue(string $queueName): Queue
+    public function createQueue(string $queueName): QueueInterface
     {
         return new RdKafkaTopic($queueName);
     }
 
-    public function createTemporaryQueue(): Queue
+    public function createTemporaryQueue(): QueueInterface
     {
         throw TemporaryQueueNotSupportedException::providerDoestNotSupportIt();
     }
@@ -88,7 +88,7 @@ class RdKafkaContext implements Context
     /**
      * @return RdKafkaProducer
      */
-    public function createProducer(): Producer
+    public function createProducer(): ProducerInterface
     {
         return new RdKafkaProducer($this->getProducer(), $this->getSerializer());
     }
@@ -98,7 +98,7 @@ class RdKafkaContext implements Context
      *
      * @return RdKafkaConsumer
      */
-    public function createConsumer(Destination $destination): Consumer
+    public function createConsumer(DestinationInterface $destination): ConsumerInterface
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, RdKafkaTopic::class);
 
@@ -128,12 +128,12 @@ class RdKafkaContext implements Context
         }
     }
 
-    public function createSubscriptionConsumer(): SubscriptionConsumer
+    public function createSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         throw SubscriptionConsumerNotSupportedException::providerDoestNotSupportIt();
     }
 
-    public function purgeQueue(Queue $queue): void
+    public function purgeQueue(QueueInterface $queue): void
     {
         throw PurgeQueueNotSupportedException::providerDoestNotSupportIt();
     }

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Enqueue\RdKafka;
 
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
 use RdKafka\Producer as VendorProducer;
 
-class RdKafkaProducer implements Producer
+class RdKafkaProducer implements ProducerInterface
 {
     use SerializerAwareTrait;
 
@@ -31,7 +31,7 @@ class RdKafkaProducer implements Producer
      * @param RdKafkaTopic   $destination
      * @param RdKafkaMessage $message
      */
-    public function send(Destination $destination, Message $message): void
+    public function send(DestinationInterface $destination, MessageInterface $message): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, RdKafkaTopic::class);
         InvalidMessageException::assertMessageInstanceOf($message, RdKafkaMessage::class);
@@ -47,7 +47,7 @@ class RdKafkaProducer implements Producer
     /**
      * @return RdKafkaProducer
      */
-    public function setDeliveryDelay(int $deliveryDelay = null): Producer
+    public function setDeliveryDelay(int $deliveryDelay = null): ProducerInterface
     {
         if (null === $deliveryDelay) {
             return $this;
@@ -64,7 +64,7 @@ class RdKafkaProducer implements Producer
     /**
      * @return RdKafkaProducer
      */
-    public function setPriority(int $priority = null): Producer
+    public function setPriority(int $priority = null): ProducerInterface
     {
         if (null === $priority) {
             return $this;
@@ -78,7 +78,7 @@ class RdKafkaProducer implements Producer
         return null;
     }
 
-    public function setTimeToLive(int $timeToLive = null): Producer
+    public function setTimeToLive(int $timeToLive = null): ProducerInterface
     {
         if (null === $timeToLive) {
             return $this;

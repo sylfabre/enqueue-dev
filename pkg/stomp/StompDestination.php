@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\Stomp;
 
-use Interop\Queue\Queue;
-use Interop\Queue\Topic;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\TopicInterface;
 
-class StompDestination implements Topic, Queue
+class StompDestination implements TopicInterface, QueueInterface
 {
     const TYPE_TOPIC = 'topic';
     const TYPE_EXCHANGE = 'exchange';

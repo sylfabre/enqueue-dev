@@ -2,33 +2,33 @@
 
 namespace Enqueue\Consumption;
 
-use Interop\Queue\Processor;
-use Interop\Queue\Queue;
+use Interop\Queue\ProcessorInterface;
+use Interop\Queue\QueueInterface;
 
 final class BoundProcessor
 {
     /**
-     * @var Queue
+     * @var QueueInterface
      */
     private $queue;
 
     /**
-     * @var Processor
+     * @var ProcessorInterface
      */
     private $processor;
 
-    public function __construct(Queue $queue, Processor $processor)
+    public function __construct(QueueInterface $queue, ProcessorInterface $processor)
     {
         $this->queue = $queue;
         $this->processor = $processor;
     }
 
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->queue;
     }
 
-    public function getProcessor(): Processor
+    public function getProcessor(): ProcessorInterface
     {
         return $this->processor;
     }

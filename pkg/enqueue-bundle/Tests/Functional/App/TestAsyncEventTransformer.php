@@ -4,22 +4,22 @@ namespace Enqueue\Bundle\Tests\Functional\App;
 
 use Enqueue\AsyncEventDispatcher\EventTransformer;
 use Enqueue\Util\JSON;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class TestAsyncEventTransformer implements EventTransformer
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @param Context $context
+     * @param ContextInterface $context
      */
-    public function __construct(Context $context)
+    public function __construct(ContextInterface $context)
     {
         $this->context = $context;
     }
@@ -41,7 +41,7 @@ class TestAsyncEventTransformer implements EventTransformer
         ]));
     }
 
-    public function toEvent($eventName, Message $message)
+    public function toEvent($eventName, MessageInterface $message)
     {
         $data = JSON::decode($message->getBody());
 

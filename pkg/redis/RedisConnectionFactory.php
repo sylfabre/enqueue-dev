@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Enqueue\Redis;
 
 use Enqueue\Dsn\Dsn;
-use Interop\Queue\ConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ConnectionFactoryInterface;
+use Interop\Queue\ContextInterface;
 
-class RedisConnectionFactory implements ConnectionFactory
+class RedisConnectionFactory implements ConnectionFactoryInterface
 {
     /**
      * @var array
@@ -80,7 +80,7 @@ class RedisConnectionFactory implements ConnectionFactory
     /**
      * @return RedisContext
      */
-    public function createContext(): Context
+    public function createContext(): ContextInterface
     {
         if ($this->config['lazy']) {
             return new RedisContext(function () {

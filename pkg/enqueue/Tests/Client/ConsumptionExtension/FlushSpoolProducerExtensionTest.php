@@ -9,9 +9,9 @@ use Enqueue\Consumption\Context\PostMessageReceived;
 use Enqueue\Consumption\EndExtensionInterface;
 use Enqueue\Consumption\PostMessageReceivedExtensionInterface;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
@@ -58,8 +58,8 @@ class FlushSpoolProducerExtensionTest extends TestCase
 
         $context = new PostMessageReceived(
             $this->createInteropContextMock(),
-            $this->createMock(Consumer::class),
-            $this->createMock(Message::class),
+            $this->createMock(ConsumerInterface::class),
+            $this->createMock(MessageInterface::class),
             'aResult',
             1,
             new NullLogger()
@@ -72,9 +72,9 @@ class FlushSpoolProducerExtensionTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createInteropContextMock(): Context
+    private function createInteropContextMock(): ContextInterface
     {
-        return $this->createMock(Context::class);
+        return $this->createMock(ContextInterface::class);
     }
 
     /**

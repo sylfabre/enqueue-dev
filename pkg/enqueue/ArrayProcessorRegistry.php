@@ -2,32 +2,32 @@
 
 namespace Enqueue;
 
-use Interop\Queue\Processor;
+use Interop\Queue\ProcessorInterface;
 
 class ArrayProcessorRegistry implements ProcessorRegistryInterface
 {
     /**
-     * @var Processor[]
+     * @var ProcessorInterface[]
      */
     private $processors;
 
     /**
-     * @param Processor[] $processors
+     * @param ProcessorInterface[] $processors
      */
     public function __construct(array $processors = [])
     {
         $this->processors = [];
-        array_walk($processors, function (Processor $processor, string $key) {
+        array_walk($processors, function (ProcessorInterface $processor, string $key) {
             $this->processors[$key] = $processor;
         });
     }
 
-    public function add(string $name, Processor $processor): void
+    public function add(string $name, ProcessorInterface $processor): void
     {
         $this->processors[$name] = $processor;
     }
 
-    public function get(string $processorName): Processor
+    public function get(string $processorName): ProcessorInterface
     {
         if (false == isset($this->processors[$processorName])) {
             throw new \LogicException(sprintf('Processor was not found. processorName: "%s"', $processorName));

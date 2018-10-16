@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\Gearman;
 
-use Interop\Queue\ConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ConnectionFactoryInterface;
+use Interop\Queue\ContextInterface;
 
-class GearmanConnectionFactory implements ConnectionFactory
+class GearmanConnectionFactory implements ConnectionFactoryInterface
 {
     /**
      * @var array
@@ -45,7 +45,7 @@ class GearmanConnectionFactory implements ConnectionFactory
     /**
      * @return GearmanContext
      */
-    public function createContext(): Context
+    public function createContext(): ContextInterface
     {
         return new GearmanContext($this->config);
     }

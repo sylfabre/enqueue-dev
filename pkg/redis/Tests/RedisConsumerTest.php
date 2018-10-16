@@ -10,7 +10,7 @@ use Enqueue\Redis\RedisMessage;
 use Enqueue\Redis\RedisProducer;
 use Enqueue\Redis\RedisResult;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 
 class RedisConsumerTest extends \PHPUnit\Framework\TestCase
 {
@@ -18,7 +18,7 @@ class RedisConsumerTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementConsumerInterface()
     {
-        $this->assertClassImplements(Consumer::class, RedisConsumer::class);
+        $this->assertClassImplements(ConsumerInterface::class, RedisConsumer::class);
     }
 
     public function testCouldBeConstructedWithContextAndDestinationAndPreFetchCountAsArguments()

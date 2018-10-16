@@ -3,20 +3,20 @@
 namespace Enqueue\Bundle\Tests\Functional;
 
 use Enqueue\Client\CommandSubscriberInterface;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
 
-class TestCommandProcessor implements Processor, CommandSubscriberInterface
+class TestCommandProcessor implements ProcessorInterface, CommandSubscriberInterface
 {
     const COMMAND = 'test-command';
 
     /**
-     * @var Message
+     * @var MessageInterface
      */
     public $message;
 
-    public function process(Message $message, Context $context)
+    public function process(MessageInterface $message, ContextInterface $context)
     {
         $this->message = $message;
 

@@ -3,31 +3,31 @@
 namespace Enqueue\Consumption\Context;
 
 use Enqueue\Consumption\Result;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 
 final class MessageReceived
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @var Consumer
+     * @var ConsumerInterface
      */
     private $consumer;
 
     /**
-     * @var Message
+     * @var MessageInterface
      */
     private $message;
 
     /**
-     * @var Processor
+     * @var ProcessorInterface
      */
     private $processor;
 
@@ -47,10 +47,10 @@ final class MessageReceived
     private $result;
 
     public function __construct(
-        Context $context,
-        Consumer $consumer,
-        Message $message,
-        Processor $processor,
+        ContextInterface $context,
+        ConsumerInterface $consumer,
+        MessageInterface $message,
+        ProcessorInterface $processor,
         int $receivedAt,
         LoggerInterface $logger
     ) {
@@ -62,27 +62,27 @@ final class MessageReceived
         $this->logger = $logger;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }
 
-    public function getConsumer(): Consumer
+    public function getConsumer(): ConsumerInterface
     {
         return $this->consumer;
     }
 
-    public function getMessage(): Message
+    public function getMessage(): MessageInterface
     {
         return $this->message;
     }
 
-    public function getProcessor(): Processor
+    public function getProcessor(): ProcessorInterface
     {
         return $this->processor;
     }
 
-    public function changeProcessor(Processor $processor): void
+    public function changeProcessor(ProcessorInterface $processor): void
     {
         $this->processor = $processor;
     }

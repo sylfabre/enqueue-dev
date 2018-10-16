@@ -3,7 +3,7 @@
 namespace Enqueue\Gearman\Tests\Spec;
 
 use Enqueue\Gearman\GearmanConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Spec\SendToAndReceiveNoWaitFromQueueSpec;
 
 /**
@@ -24,7 +24,7 @@ class GearmanSendToAndReceiveNoWaitFromQueueTest extends SendToAndReceiveNoWaitF
     /**
      * {@inheritdoc}
      */
-    protected function createQueue(Context $context, $queueName)
+    protected function createQueue(ContextInterface $context, $queueName)
     {
         return $context->createQueue($queueName.time());
     }

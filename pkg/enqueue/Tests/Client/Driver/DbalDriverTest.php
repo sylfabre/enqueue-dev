@@ -11,11 +11,11 @@ use Enqueue\Dbal\DbalDestination;
 use Enqueue\Dbal\DbalMessage;
 use Enqueue\Dbal\DbalProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\Topic as InteropTopic;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\TopicInterface as InteropTopic;
 
 class DbalDriverTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,7 +61,7 @@ class DbalDriverTest extends \PHPUnit_Framework_TestCase
     /**
      * @return DbalContext
      */
-    protected function createContextMock(): Context
+    protected function createContextMock(): ContextInterface
     {
         return $this->createMock(DbalContext::class);
     }

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Enqueue\RdKafka;
 
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 use RdKafka\KafkaConsumer;
 use RdKafka\TopicPartition;
 
-class RdKafkaConsumer implements Consumer
+class RdKafkaConsumer implements ConsumerInterface
 {
     use SerializerAwareTrait;
 
@@ -75,7 +75,7 @@ class RdKafkaConsumer implements Consumer
         $this->offset = $offset;
     }
 
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->topic;
     }
@@ -83,7 +83,7 @@ class RdKafkaConsumer implements Consumer
     /**
      * @return RdKafkaMessage
      */
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         if (false === $this->subscribed) {
             if (null === $this->offset) {
@@ -116,7 +116,7 @@ class RdKafkaConsumer implements Consumer
     /**
      * @return RdKafkaMessage
      */
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         throw new \LogicException('Not implemented');
     }
@@ -124,7 +124,7 @@ class RdKafkaConsumer implements Consumer
     /**
      * @param RdKafkaMessage $message
      */
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, RdKafkaMessage::class);
 
@@ -142,7 +142,7 @@ class RdKafkaConsumer implements Consumer
     /**
      * @param RdKafkaMessage $message
      */
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         $this->acknowledge($message);
 

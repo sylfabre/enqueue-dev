@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Enqueue\Gearman;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 
-class GearmanConsumer implements Consumer
+class GearmanConsumer implements ConsumerInterface
 {
     /**
      * @var \GearmanWorker
@@ -36,7 +36,7 @@ class GearmanConsumer implements Consumer
     /**
      * @return GearmanDestination
      */
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->destination;
     }
@@ -44,7 +44,7 @@ class GearmanConsumer implements Consumer
     /**
      * @return GearmanMessage
      */
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         set_error_handler(function ($severity, $message, $file, $line) {
             throw new \ErrorException($message, 0, $severity, $file, $line);
@@ -70,7 +70,7 @@ class GearmanConsumer implements Consumer
     /**
      * @return GearmanMessage
      */
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         return $this->receive(100);
     }
@@ -78,14 +78,14 @@ class GearmanConsumer implements Consumer
     /**
      * @param GearmanMessage $message
      */
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
     }
 
     /**
      * @param GearmanMessage $message
      */
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         if ($requeue) {
             $this->context->createProducer()->send($this->destination, $message);

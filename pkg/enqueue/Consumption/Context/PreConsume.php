@@ -2,19 +2,19 @@
 
 namespace Enqueue\Consumption\Context;
 
-use Interop\Queue\Context;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
 use Psr\Log\LoggerInterface;
 
 final class PreConsume
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @var SubscriptionConsumer
+     * @var SubscriptionConsumerInterface
      */
     private $subscriptionConsumer;
 
@@ -43,7 +43,7 @@ final class PreConsume
      */
     private $executionInterrupted;
 
-    public function __construct(Context $context, SubscriptionConsumer $subscriptionConsumer, LoggerInterface $logger, int $cycle, int $receiveTimeout, int $startTime)
+    public function __construct(ContextInterface $context, SubscriptionConsumerInterface $subscriptionConsumer, LoggerInterface $logger, int $cycle, int $receiveTimeout, int $startTime)
     {
         $this->context = $context;
         $this->subscriptionConsumer = $subscriptionConsumer;
@@ -55,12 +55,12 @@ final class PreConsume
         $this->executionInterrupted = false;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }
 
-    public function getSubscriptionConsumer(): SubscriptionConsumer
+    public function getSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         return $this->subscriptionConsumer;
     }

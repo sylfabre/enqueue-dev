@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\RdKafka;
 
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 use RdKafka\Message as VendorMessage;
 
-class RdKafkaMessage implements Message
+class RdKafkaMessage implements MessageInterface
 {
     /**
      * @var string
@@ -40,7 +40,7 @@ class RdKafkaMessage implements Message
     private $key;
 
     /**
-     * @var Message
+     * @var MessageInterface
      */
     private $kafkaMessage;
 

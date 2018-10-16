@@ -6,12 +6,12 @@ namespace Enqueue\Dbal;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 
-class DbalConsumer implements Consumer
+class DbalConsumer implements ConsumerInterface
 {
     /**
      * @var DbalContext
@@ -61,12 +61,12 @@ class DbalConsumer implements Consumer
     /**
      * @return DbalDestination
      */
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->queue;
     }
 
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         $timeout /= 1000;
         $startAt = microtime(true);
@@ -90,7 +90,7 @@ class DbalConsumer implements Consumer
         }
     }
 
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         return $this->receiveMessage();
     }
@@ -98,7 +98,7 @@ class DbalConsumer implements Consumer
     /**
      * @param DbalMessage $message
      */
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
         // does nothing
     }
@@ -106,7 +106,7 @@ class DbalConsumer implements Consumer
     /**
      * @param DbalMessage $message
      */
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, DbalMessage::class);
 

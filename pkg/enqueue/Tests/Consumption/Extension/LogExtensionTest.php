@@ -16,10 +16,10 @@ use Enqueue\Null\NullMessage;
 use Enqueue\Null\NullQueue;
 use Enqueue\Test\ClassExtensionTrait;
 use Enqueue\Util\Stringify;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Processor;
-use Interop\Queue\Queue;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\ProcessorInterface;
+use Interop\Queue\QueueInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -163,7 +163,7 @@ class LogExtensionTest extends TestCase
         $message->setProperty('aProp', 'aPropVal');
         $message->setHeader('aHeader', 'aHeaderVal');
 
-        $context = new PostMessageReceived($this->createContextMock(), $consumerMock, $message, Processor::REJECT, 1, $logger);
+        $context = new PostMessageReceived($this->createContextMock(), $consumerMock, $message, ProcessorInterface::REJECT, 1, $logger);
 
         $extension = new LogExtension();
         $extension->onPostMessageReceived($context);
@@ -232,9 +232,9 @@ class LogExtensionTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createConsumerStub(Queue $queue): Consumer
+    private function createConsumerStub(QueueInterface $queue): ConsumerInterface
     {
-        $consumerMock = $this->createMock(Consumer::class);
+        $consumerMock = $this->createMock(ConsumerInterface::class);
         $consumerMock
             ->expects($this->any())
             ->method('getQueue')
@@ -247,17 +247,17 @@ class LogExtensionTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createContextMock(): Context
+    private function createContextMock(): ContextInterface
     {
-        return $this->createMock(Context::class);
+        return $this->createMock(ContextInterface::class);
     }
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createProcessorMock(): Processor
+    private function createProcessorMock(): ProcessorInterface
     {
-        return $this->createMock(Processor::class);
+        return $this->createMock(ProcessorInterface::class);
     }
 
     /**

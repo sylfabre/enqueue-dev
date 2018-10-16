@@ -10,18 +10,18 @@ use Enqueue\Client\Message;
 use Enqueue\Client\MessagePriority;
 use Enqueue\Client\Route;
 use Enqueue\Client\RouteCollection;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\Topic as InteropTopic;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\TopicInterface as InteropTopic;
 use Psr\Log\LoggerInterface;
 
 class GenericDriver implements DriverInterface
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
@@ -36,7 +36,7 @@ class GenericDriver implements DriverInterface
     private $routeCollection;
 
     public function __construct(
-        Context $context,
+        ContextInterface $context,
         Config $config,
         RouteCollection $routeCollection
     ) {
@@ -203,7 +203,7 @@ class GenericDriver implements DriverInterface
         return $this->config;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }
@@ -213,7 +213,7 @@ class GenericDriver implements DriverInterface
         return $this->routeCollection;
     }
 
-    protected function doSendToRouter(InteropProducer $producer, Destination $topic, InteropMessage $transportMessage): void
+    protected function doSendToRouter(InteropProducer $producer, DestinationInterface $topic, InteropMessage $transportMessage): void
     {
         $producer->send($topic, $transportMessage);
     }
@@ -223,7 +223,7 @@ class GenericDriver implements DriverInterface
         $producer->send($queue, $transportMessage);
     }
 
-    protected function createRouterTopic(): Destination
+    protected function createRouterTopic(): DestinationInterface
     {
         return $this->createQueue($this->getConfig()->getRouterQueue());
     }

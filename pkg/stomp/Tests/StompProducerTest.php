@@ -8,9 +8,9 @@ use Enqueue\Stomp\StompProducer;
 use Enqueue\Test\ClassExtensionTrait;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
 use Stomp\Client;
 use Stomp\Transport\Message as VendorMessage;
 
@@ -20,7 +20,7 @@ class StompProducerTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementProducerInterface()
     {
-        $this->assertClassImplements(Producer::class, StompProducer::class);
+        $this->assertClassImplements(ProducerInterface::class, StompProducer::class);
     }
 
     public function testShouldThrowInvalidDestinationExceptionWhenDestinationIsWrongType()
@@ -30,7 +30,7 @@ class StompProducerTest extends \PHPUnit\Framework\TestCase
 
         $producer = new StompProducer($this->createStompClientMock());
 
-        $producer->send($this->createMock(Queue::class), new StompMessage());
+        $producer->send($this->createMock(QueueInterface::class), new StompMessage());
     }
 
     public function testShouldThrowInvalidMessageExceptionWhenMessageIsWrongType()
@@ -40,7 +40,7 @@ class StompProducerTest extends \PHPUnit\Framework\TestCase
 
         $producer = new StompProducer($this->createStompClientMock());
 
-        $producer->send(new StompDestination(), $this->createMock(Message::class));
+        $producer->send(new StompDestination(), $this->createMock(MessageInterface::class));
     }
 
     public function testShouldSendMessage()

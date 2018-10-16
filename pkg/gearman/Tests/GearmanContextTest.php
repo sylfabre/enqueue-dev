@@ -5,7 +5,7 @@ namespace Enqueue\Gearman\Tests;
 use Enqueue\Gearman\GearmanContext;
 use Enqueue\Null\NullQueue;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +20,7 @@ class GearmanContextTest extends TestCase
 
     public function testShouldImplementContextInterface()
     {
-        $this->assertClassImplements(Context::class, GearmanContext::class);
+        $this->assertClassImplements(ContextInterface::class, GearmanContext::class);
     }
 
     public function testCouldBeConstructedWithConnectionConfigAsFirstArgument()

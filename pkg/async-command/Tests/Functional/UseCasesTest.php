@@ -8,7 +8,7 @@ use Enqueue\AsyncCommand\RunCommandProcessor;
 use Enqueue\Consumption\Result;
 use Enqueue\Null\NullContext;
 use Enqueue\Null\NullMessage;
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class UseCasesTest extends TestCase
         $result = $processor->process($Message, new NullContext());
 
         $this->assertInstanceOf(Result::class, $result);
-        $this->assertInstanceOf(Message::class, $result->getReply());
+        $this->assertInstanceOf(MessageInterface::class, $result->getReply());
 
         $replyMessage = $result->getReply();
 

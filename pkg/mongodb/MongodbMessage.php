@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue\Mongodb;
 
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 
-class MongodbMessage implements Message
+class MongodbMessage implements MessageInterface
 {
     /**
      * @var string

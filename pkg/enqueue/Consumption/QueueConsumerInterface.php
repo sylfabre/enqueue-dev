@@ -2,9 +2,9 @@
 
 namespace Enqueue\Consumption;
 
-use Interop\Queue\Context;
-use Interop\Queue\Processor;
-use Interop\Queue\Queue as InteropQueue;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\ProcessorInterface;
+use Interop\Queue\QueueInterface as InteropQueue;
 
 interface QueueConsumerInterface
 {
@@ -18,12 +18,12 @@ interface QueueConsumerInterface
      */
     public function getReceiveTimeout(): int;
 
-    public function getContext(): Context;
+    public function getContext(): ContextInterface;
 
     /**
      * @param string|InteropQueue $queueName
      */
-    public function bind($queueName, Processor $processor): self;
+    public function bind($queueName, ProcessorInterface $processor): self;
 
     /**
      * @param string|InteropQueue $queueName

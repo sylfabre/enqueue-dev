@@ -14,11 +14,11 @@ use Enqueue\Stomp\StompDestination;
 use Enqueue\Stomp\StompMessage;
 use Enqueue\Stomp\StompProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\Topic as InteropTopic;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\TopicInterface as InteropTopic;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -109,7 +109,7 @@ class StompDriverTest extends TestCase
     /**
      * @return StompContext
      */
-    protected function createContextMock(): Context
+    protected function createContextMock(): ContextInterface
     {
         return $this->createMock(StompContext::class);
     }

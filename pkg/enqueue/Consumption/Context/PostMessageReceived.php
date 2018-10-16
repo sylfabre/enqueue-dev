@@ -3,25 +3,25 @@
 namespace Enqueue\Consumption\Context;
 
 use Enqueue\Consumption\Result;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
 use Psr\Log\LoggerInterface;
 
 final class PostMessageReceived
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @var Consumer
+     * @var ConsumerInterface
      */
     private $consumer;
 
     /**
-     * @var Message
+     * @var MessageInterface
      */
     private $message;
 
@@ -46,9 +46,9 @@ final class PostMessageReceived
     private $executionInterrupted;
 
     public function __construct(
-        Context $context,
-        Consumer $consumer,
-        Message $message,
+        ContextInterface $context,
+        ConsumerInterface $consumer,
+        MessageInterface $message,
         $result,
         int $receivedAt,
         LoggerInterface $logger
@@ -63,17 +63,17 @@ final class PostMessageReceived
         $this->executionInterrupted = false;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }
 
-    public function getConsumer(): Consumer
+    public function getConsumer(): ConsumerInterface
     {
         return $this->consumer;
     }
 
-    public function getMessage(): Message
+    public function getMessage(): MessageInterface
     {
         return $this->message;
     }

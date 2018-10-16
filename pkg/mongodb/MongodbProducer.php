@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Enqueue\Mongodb;
 
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\Exception;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
 
-class MongodbProducer implements Producer
+class MongodbProducer implements ProducerInterface
 {
     /**
      * @var int|null
@@ -42,7 +42,7 @@ class MongodbProducer implements Producer
      * @param MongodbDestination $destination
      * @param MongodbMessage     $message
      */
-    public function send(Destination $destination, Message $message): void
+    public function send(DestinationInterface $destination, MessageInterface $message): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, MongodbDestination::class);
         InvalidMessageException::assertMessageInstanceOf($message, MongodbMessage::class);
@@ -117,7 +117,7 @@ class MongodbProducer implements Producer
     /**
      * @return self
      */
-    public function setDeliveryDelay(int $deliveryDelay = null): Producer
+    public function setDeliveryDelay(int $deliveryDelay = null): ProducerInterface
     {
         $this->deliveryDelay = $deliveryDelay;
 
@@ -132,7 +132,7 @@ class MongodbProducer implements Producer
     /**
      * @return self
      */
-    public function setPriority(int $priority = null): Producer
+    public function setPriority(int $priority = null): ProducerInterface
     {
         $this->priority = $priority;
 
@@ -147,7 +147,7 @@ class MongodbProducer implements Producer
     /**
      * @return self
      */
-    public function setTimeToLive(int $timeToLive = null): Producer
+    public function setTimeToLive(int $timeToLive = null): ProducerInterface
     {
         $this->timeToLive = $timeToLive;
 

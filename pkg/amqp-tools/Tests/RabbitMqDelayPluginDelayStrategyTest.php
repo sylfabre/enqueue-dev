@@ -12,10 +12,10 @@ use Interop\Amqp\AmqpProducer;
 use Interop\Amqp\Impl\AmqpMessage;
 use Interop\Amqp\Impl\AmqpQueue;
 use Interop\Amqp\Impl\AmqpTopic;
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
 use PHPUnit\Framework\TestCase;
 
 class RabbitMqDelayPluginDelayStrategyTest extends TestCase
@@ -188,11 +188,11 @@ class TestProducer implements AmqpProducer, DelayStrategy
     {
     }
 
-    public function send(Destination $destination, Message $message): void
+    public function send(DestinationInterface $destination, MessageInterface $message): void
     {
     }
 
-    public function setDeliveryDelay(int $deliveryDelay = null): Producer
+    public function setDeliveryDelay(int $deliveryDelay = null): ProducerInterface
     {
     }
 
@@ -200,7 +200,7 @@ class TestProducer implements AmqpProducer, DelayStrategy
     {
     }
 
-    public function setPriority(int $priority = null): Producer
+    public function setPriority(int $priority = null): ProducerInterface
     {
     }
 
@@ -208,7 +208,7 @@ class TestProducer implements AmqpProducer, DelayStrategy
     {
     }
 
-    public function setTimeToLive(int $timeToLive = null): Producer
+    public function setTimeToLive(int $timeToLive = null): ProducerInterface
     {
     }
 

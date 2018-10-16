@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\Redis;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
 
-class RedisSubscriptionConsumer implements SubscriptionConsumer
+class RedisSubscriptionConsumer implements SubscriptionConsumerInterface
 {
     /**
      * @var RedisContext
@@ -52,7 +52,7 @@ class RedisSubscriptionConsumer implements SubscriptionConsumer
 
             /**
              * @var string
-             * @var Consumer $consumer
+             * @var ConsumerInterface $consumer
              * @var callable $processor
              */
             $result = $this->context->getRedis()->brpop($currentQueueNames, $timeout ?: 5);
@@ -81,7 +81,7 @@ class RedisSubscriptionConsumer implements SubscriptionConsumer
     /**
      * @param RedisConsumer $consumer
      */
-    public function subscribe(Consumer $consumer, callable $callback): void
+    public function subscribe(ConsumerInterface $consumer, callable $callback): void
     {
         if (false == $consumer instanceof RedisConsumer) {
             throw new \InvalidArgumentException(sprintf('The consumer must be instance of "%s" got "%s"', RedisConsumer::class, get_class($consumer)));
@@ -102,7 +102,7 @@ class RedisSubscriptionConsumer implements SubscriptionConsumer
     /**
      * @param RedisConsumer $consumer
      */
-    public function unsubscribe(Consumer $consumer): void
+    public function unsubscribe(ConsumerInterface $consumer): void
     {
         if (false == $consumer instanceof RedisConsumer) {
             throw new \InvalidArgumentException(sprintf('The consumer must be instance of "%s" got "%s"', RedisConsumer::class, get_class($consumer)));

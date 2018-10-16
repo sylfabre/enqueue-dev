@@ -11,7 +11,7 @@ use Enqueue\Null\NullQueue;
 use Enqueue\Test\ClassExtensionTrait;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Producer;
+use Interop\Queue\ProducerInterface;
 use Makasim\File\TempFile;
 
 class FsProducerTest extends \PHPUnit\Framework\TestCase
@@ -20,7 +20,7 @@ class FsProducerTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementProducerInterface()
     {
-        $this->assertClassImplements(Producer::class, FsProducer::class);
+        $this->assertClassImplements(ProducerInterface::class, FsProducer::class);
     }
 
     public function testCouldBeConstructedWithContextAsFirstArgument()

@@ -9,14 +9,14 @@ use Interop\Amqp\AmqpMessage;
 use Interop\Amqp\AmqpProducer as InteropAmqpProducer;
 use Interop\Amqp\AmqpQueue;
 use Interop\Amqp\AmqpTopic;
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\DeliveryDelayNotSupportedException;
 use Interop\Queue\Exception\Exception;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Topic;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\TopicInterface;
 
 class AmqpProducer implements InteropAmqpProducer, DelayStrategyAware
 {
@@ -57,9 +57,9 @@ class AmqpProducer implements InteropAmqpProducer, DelayStrategyAware
      * @param AmqpTopic|AmqpQueue $destination
      * @param AmqpMessage         $message
      */
-    public function send(Destination $destination, Message $message): void
+    public function send(DestinationInterface $destination, MessageInterface $message): void
     {
-        $destination instanceof Topic
+        $destination instanceof TopicInterface
             ? InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpTopic::class)
             : InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpQueue::class);
 
@@ -72,7 +72,7 @@ class AmqpProducer implements InteropAmqpProducer, DelayStrategyAware
         }
     }
 
-    public function setDeliveryDelay(int $deliveryDelay = null): Producer
+    public function setDeliveryDelay(int $deliveryDelay = null): ProducerInterface
     {
         if (null === $this->delayStrategy) {
             throw DeliveryDelayNotSupportedException::providerDoestNotSupportIt();
@@ -88,7 +88,7 @@ class AmqpProducer implements InteropAmqpProducer, DelayStrategyAware
         return $this->deliveryDelay;
     }
 
-    public function setPriority(int $priority = null): Producer
+    public function setPriority(int $priority = null): ProducerInterface
     {
         $this->priority = $priority;
 
@@ -100,7 +100,7 @@ class AmqpProducer implements InteropAmqpProducer, DelayStrategyAware
         return $this->priority;
     }
 
-    public function setTimeToLive(int $timeToLive = null): Producer
+    public function setTimeToLive(int $timeToLive = null): ProducerInterface
     {
         $this->timeToLive = $timeToLive;
 

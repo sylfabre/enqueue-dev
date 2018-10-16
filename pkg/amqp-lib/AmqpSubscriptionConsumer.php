@@ -7,7 +7,7 @@ namespace Enqueue\AmqpLib;
 use Enqueue\AmqpTools\SignalSocketHelper;
 use Interop\Amqp\AmqpConsumer as InteropAmqpConsumer;
 use Interop\Amqp\AmqpSubscriptionConsumer as InteropAmqpSubscriptionConsumer;
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use Interop\Queue\Exception\Exception;
 use PhpAmqpLib\Exception\AMQPIOWaitException;
 use PhpAmqpLib\Exception\AMQPTimeoutException;
@@ -75,7 +75,7 @@ class AmqpSubscriptionConsumer implements InteropAmqpSubscriptionConsumer
     /**
      * @param AmqpConsumer $consumer
      */
-    public function subscribe(Consumer $consumer, callable $callback): void
+    public function subscribe(ConsumerInterface $consumer, callable $callback): void
     {
         if (false == $consumer instanceof AmqpConsumer) {
             throw new \InvalidArgumentException(sprintf('The consumer must be instance of "%s" got "%s"', AmqpConsumer::class, get_class($consumer)));
@@ -122,7 +122,7 @@ class AmqpSubscriptionConsumer implements InteropAmqpSubscriptionConsumer
     /**
      * @param AmqpConsumer $consumer
      */
-    public function unsubscribe(Consumer $consumer): void
+    public function unsubscribe(ConsumerInterface $consumer): void
     {
         if (false == $consumer instanceof AmqpConsumer) {
             throw new \InvalidArgumentException(sprintf('The consumer must be instance of "%s" got "%s"', AmqpConsumer::class, get_class($consumer)));

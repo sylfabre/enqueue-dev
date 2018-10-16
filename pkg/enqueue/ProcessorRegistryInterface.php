@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue;
 
-use Interop\Queue\Processor;
+use Interop\Queue\ProcessorInterface;
 
 interface ProcessorRegistryInterface
 {
-    public function get(string $processorName): Processor;
+    public function get(string $processorName): ProcessorInterface;
 }

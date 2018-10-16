@@ -5,7 +5,7 @@ namespace Enqueue\Null\Tests;
 use Enqueue\Null\NullConnectionFactory;
 use Enqueue\Null\NullContext;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
 class NullConnectionFactoryTest extends TestCase
@@ -14,7 +14,7 @@ class NullConnectionFactoryTest extends TestCase
 
     public function testShouldImplementConnectionFactoryInterface()
     {
-        $this->assertClassImplements(ConnectionFactory::class, NullConnectionFactory::class);
+        $this->assertClassImplements(ConnectionFactoryInterface::class, NullConnectionFactory::class);
     }
 
     public function testCouldBeConstructedWithoutAnyArguments()

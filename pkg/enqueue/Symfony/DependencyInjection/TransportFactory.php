@@ -12,8 +12,8 @@ use Enqueue\Resources;
 use Enqueue\Rpc\RpcClient;
 use Enqueue\Rpc\RpcFactory;
 use Enqueue\Symfony\ContainerProcessorRegistry;
-use Interop\Queue\ConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ConnectionFactoryInterface;
+use Interop\Queue\ContextInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -83,7 +83,7 @@ final class TransportFactory
                 ))
             ->end()
             ->scalarNode('connection_factory_class')
-                ->info(sprintf('The connection factory class should implement "%s" interface', ConnectionFactory::class))
+                ->info(sprintf('The connection factory class should implement "%s" interface', ConnectionFactoryInterface::class))
             ->end()
             ->scalarNode('factory_service')
                 ->info(sprintf('The factory class should implement "%s" interface', ConnectionFactoryFactoryInterface::class))
@@ -133,14 +133,14 @@ final class TransportFactory
                 ->addArgument($config)
             ;
         } else {
-            $container->register($factoryId, ConnectionFactory::class)
+            $container->register($factoryId, ConnectionFactoryInterface::class)
                 ->setFactory([$factoryFactoryService, 'create'])
                 ->addArgument($config)
             ;
         }
 
         if ('default' === $this->name) {
-            $container->setAlias(ConnectionFactory::class, $this->format('connection_factory'));
+            $container->setAlias(ConnectionFactoryInterface::class, $this->format('connection_factory'));
         }
     }
 
@@ -151,12 +151,12 @@ final class TransportFactory
 
         $contextId = $this->format('context');
 
-        $container->register($contextId, Context::class)
+        $container->register($contextId, ContextInterface::class)
             ->setFactory([new Reference($factoryId), 'createContext'])
         ;
 
         if ('default' === $this->name) {
-            $container->setAlias(Context::class, $this->format('context'));
+            $container->setAlias(ContextInterface::class, $this->format('context'));
         }
     }
 

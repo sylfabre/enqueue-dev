@@ -26,7 +26,7 @@ use Enqueue\Consumption\QueueConsumerInterface;
 use Enqueue\Rpc\Promise;
 use Enqueue\Rpc\RpcFactory;
 use Enqueue\Symfony\DependencyInjection\TransportFactory;
-use Interop\Queue\Processor;
+use Interop\Queue\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -120,7 +120,7 @@ final class SimpleClient
     }
 
     /**
-     * @param callable|Processor $processor
+     * @param callable|ProcessorInterface $processor
      */
     public function bindTopic(string $topic, $processor, string $processorName = null): void
     {
@@ -128,7 +128,7 @@ final class SimpleClient
             $processor = new CallbackProcessor($processor);
         }
 
-        if (false == $processor instanceof Processor) {
+        if (false == $processor instanceof ProcessorInterface) {
             throw new \LogicException('The processor must be either callable or instance of Processor');
         }
 
@@ -139,7 +139,7 @@ final class SimpleClient
     }
 
     /**
-     * @param callable|Processor $processor
+     * @param callable|ProcessorInterface $processor
      */
     public function bindCommand(string $command, $processor, string $processorName = null): void
     {
@@ -147,7 +147,7 @@ final class SimpleClient
             $processor = new CallbackProcessor($processor);
         }
 
-        if (false == $processor instanceof Processor) {
+        if (false == $processor instanceof ProcessorInterface) {
             throw new \LogicException('The processor must be either callable or instance of Processor');
         }
 

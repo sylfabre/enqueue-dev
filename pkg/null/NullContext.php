@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Enqueue\Null;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
-use Interop\Queue\Topic;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
+use Interop\Queue\TopicInterface;
 
-class NullContext implements Context
+class NullContext implements ContextInterface
 {
     /**
      * @return NullMessage
      */
-    public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
+    public function createMessage(string $body = '', array $properties = [], array $headers = []): MessageInterface
     {
         $message = new NullMessage();
         $message->setBody($body);
@@ -31,7 +31,7 @@ class NullContext implements Context
     /**
      * @return NullQueue
      */
-    public function createQueue(string $name): Queue
+    public function createQueue(string $name): QueueInterface
     {
         return new NullQueue($name);
     }
@@ -39,7 +39,7 @@ class NullContext implements Context
     /**
      * @return NullQueue
      */
-    public function createTemporaryQueue(): Queue
+    public function createTemporaryQueue(): QueueInterface
     {
         return $this->createQueue(uniqid('', true));
     }
@@ -47,7 +47,7 @@ class NullContext implements Context
     /**
      * @return NullTopic
      */
-    public function createTopic(string $name): Topic
+    public function createTopic(string $name): TopicInterface
     {
         return new NullTopic($name);
     }
@@ -55,7 +55,7 @@ class NullContext implements Context
     /**
      * @return NullConsumer
      */
-    public function createConsumer(Destination $destination): Consumer
+    public function createConsumer(DestinationInterface $destination): ConsumerInterface
     {
         return new NullConsumer($destination);
     }
@@ -63,7 +63,7 @@ class NullContext implements Context
     /**
      * @return NullProducer
      */
-    public function createProducer(): Producer
+    public function createProducer(): ProducerInterface
     {
         return new NullProducer();
     }
@@ -71,12 +71,12 @@ class NullContext implements Context
     /**
      * @return NullSubscriptionConsumer
      */
-    public function createSubscriptionConsumer(): SubscriptionConsumer
+    public function createSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         return new NullSubscriptionConsumer();
     }
 
-    public function purgeQueue(Queue $queue): void
+    public function purgeQueue(QueueInterface $queue): void
     {
     }
 

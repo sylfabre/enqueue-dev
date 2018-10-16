@@ -4,15 +4,15 @@ namespace Enqueue\Bundle\Tests\Functional\App;
 
 use Enqueue\Client\CommandSubscriberInterface;
 use Enqueue\Consumption\Result;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
 
-class TestCommandSubscriberProcessor implements Processor, CommandSubscriberInterface
+class TestCommandSubscriberProcessor implements ProcessorInterface, CommandSubscriberInterface
 {
     public $calls = [];
 
-    public function process(Message $message, Context $context)
+    public function process(MessageInterface $message, ContextInterface $context)
     {
         $this->calls[] = $message;
 

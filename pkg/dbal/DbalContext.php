@@ -7,19 +7,19 @@ namespace Enqueue\Dbal;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\SubscriptionConsumerNotSupportedException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
-use Interop\Queue\Topic;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
+use Interop\Queue\TopicInterface;
 
-class DbalContext implements Context
+class DbalContext implements ContextInterface
 {
     /**
      * @var Connection
@@ -65,7 +65,7 @@ class DbalContext implements Context
     /**
      * {@inheritdoc}
      */
-    public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
+    public function createMessage(string $body = '', array $properties = [], array $headers = []): MessageInterface
     {
         $message = new DbalMessage();
         $message->setBody($body);
@@ -78,7 +78,7 @@ class DbalContext implements Context
     /**
      * @return DbalDestination
      */
-    public function createQueue(string $name): Queue
+    public function createQueue(string $name): QueueInterface
     {
         return new DbalDestination($name);
     }
@@ -86,12 +86,12 @@ class DbalContext implements Context
     /**
      * @return DbalDestination
      */
-    public function createTopic(string $name): Topic
+    public function createTopic(string $name): TopicInterface
     {
         return new DbalDestination($name);
     }
 
-    public function createTemporaryQueue(): Queue
+    public function createTemporaryQueue(): QueueInterface
     {
         throw TemporaryQueueNotSupportedException::providerDoestNotSupportIt();
     }
@@ -99,7 +99,7 @@ class DbalContext implements Context
     /**
      * @return DbalProducer
      */
-    public function createProducer(): Producer
+    public function createProducer(): ProducerInterface
     {
         return new DbalProducer($this);
     }
@@ -107,7 +107,7 @@ class DbalContext implements Context
     /**
      * @return DbalConsumer
      */
-    public function createConsumer(Destination $destination): Consumer
+    public function createConsumer(DestinationInterface $destination): ConsumerInterface
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, DbalDestination::class);
 
@@ -124,7 +124,7 @@ class DbalContext implements Context
     {
     }
 
-    public function createSubscriptionConsumer(): SubscriptionConsumer
+    public function createSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         throw SubscriptionConsumerNotSupportedException::providerDoestNotSupportIt();
     }
@@ -132,7 +132,7 @@ class DbalContext implements Context
     /**
      * @param DbalDestination $queue
      */
-    public function purgeQueue(Queue $queue): void
+    public function purgeQueue(QueueInterface $queue): void
     {
         $this->getDbalConnection()->delete(
             $this->getTableName(),

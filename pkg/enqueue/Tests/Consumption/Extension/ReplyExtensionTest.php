@@ -9,9 +9,9 @@ use Enqueue\Consumption\Result;
 use Enqueue\Null\NullMessage;
 use Enqueue\Null\NullQueue;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Producer as InteropProducer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\ProducerInterface as InteropProducer;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
@@ -35,7 +35,7 @@ class ReplyExtensionTest extends TestCase
 
         $postReceivedMessage = new PostMessageReceived(
             $this->createNeverUsedContextMock(),
-            $this->createMock(Consumer::class),
+            $this->createMock(ConsumerInterface::class),
             new NullMessage(),
             'aResult',
             1,
@@ -54,7 +54,7 @@ class ReplyExtensionTest extends TestCase
 
         $postReceivedMessage = new PostMessageReceived(
             $this->createNeverUsedContextMock(),
-            $this->createMock(Consumer::class),
+            $this->createMock(ConsumerInterface::class),
             $message,
             'notInstanceOfResult',
             1,
@@ -73,7 +73,7 @@ class ReplyExtensionTest extends TestCase
 
         $postReceivedMessage = new PostMessageReceived(
             $this->createNeverUsedContextMock(),
-            $this->createMock(Consumer::class),
+            $this->createMock(ConsumerInterface::class),
             $message,
             Result::ack(),
             1,
@@ -103,8 +103,8 @@ class ReplyExtensionTest extends TestCase
             ->with($replyQueue, $replyMessage)
         ;
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|Context $contextMock */
-        $contextMock = $this->createMock(Context::class);
+        /** @var \PHPUnit_Framework_MockObject_MockObject|ContextInterface $contextMock */
+        $contextMock = $this->createMock(ContextInterface::class);
         $contextMock
             ->expects($this->once())
             ->method('createQueue')
@@ -118,7 +118,7 @@ class ReplyExtensionTest extends TestCase
 
         $postReceivedMessage = new PostMessageReceived(
             $contextMock,
-            $this->createMock(Consumer::class),
+            $this->createMock(ConsumerInterface::class),
             $message,
             Result::reply($replyMessage),
             1,
@@ -131,17 +131,17 @@ class ReplyExtensionTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createInteropContextMock(): Context
+    protected function createInteropContextMock(): ContextInterface
     {
-        return $this->createMock(Context::class);
+        return $this->createMock(ContextInterface::class);
     }
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createNeverUsedContextMock(): Context
+    private function createNeverUsedContextMock(): ContextInterface
     {
-        $contextMock = $this->createMock(Context::class);
+        $contextMock = $this->createMock(ContextInterface::class);
         $contextMock
             ->expects($this->never())
             ->method('createProducer')

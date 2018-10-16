@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Enqueue\Gps;
 
 use Google\Cloud\PubSub\Topic;
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\DeliveryDelayNotSupportedException;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
 use Interop\Queue\Exception\PriorityNotSupportedException;
 use Interop\Queue\Exception\TimeToLiveNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
 
-class GpsProducer implements Producer
+class GpsProducer implements ProducerInterface
 {
     /**
      * @var GpsContext
@@ -30,7 +30,7 @@ class GpsProducer implements Producer
      * @param GpsTopic   $destination
      * @param GpsMessage $message
      */
-    public function send(Destination $destination, Message $message): void
+    public function send(DestinationInterface $destination, MessageInterface $message): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, GpsTopic::class);
         InvalidMessageException::assertMessageInstanceOf($message, GpsMessage::class);
@@ -42,7 +42,7 @@ class GpsProducer implements Producer
         ]);
     }
 
-    public function setDeliveryDelay(int $deliveryDelay = null): Producer
+    public function setDeliveryDelay(int $deliveryDelay = null): ProducerInterface
     {
         if (null === $deliveryDelay) {
             return $this;
@@ -56,7 +56,7 @@ class GpsProducer implements Producer
         return null;
     }
 
-    public function setPriority(int $priority = null): Producer
+    public function setPriority(int $priority = null): ProducerInterface
     {
         if (null === $priority) {
             return $this;
@@ -70,7 +70,7 @@ class GpsProducer implements Producer
         return null;
     }
 
-    public function setTimeToLive(int $timeToLive = null): Producer
+    public function setTimeToLive(int $timeToLive = null): ProducerInterface
     {
         if (null === $timeToLive) {
             return $this;

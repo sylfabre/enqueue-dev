@@ -8,12 +8,12 @@ use Enqueue\Client\Message;
 use Enqueue\Client\MessagePriority;
 use Enqueue\Client\Route;
 use Enqueue\Client\RouteCollection;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\Topic as InteropTopic;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\TopicInterface as InteropTopic;
 
 trait GenericDriverTestsTrait
 {
@@ -258,7 +258,7 @@ trait GenericDriverTestsTrait
         $producer
             ->expects($this->once())
             ->method('send')
-            ->willReturnCallback(function (Destination $topic, InteropMessage $message) use ($transportMessage) {
+            ->willReturnCallback(function (DestinationInterface $topic, InteropMessage $message) use ($transportMessage) {
                 $this->assertSame(
                     $this->getRouterTransportName(),
                     $topic instanceof InteropTopic ? $topic->getTopicName() : $topic->getQueueName());
@@ -1070,7 +1070,7 @@ trait GenericDriverTestsTrait
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    abstract protected function createContextMock(): Context;
+    abstract protected function createContextMock(): ContextInterface;
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
@@ -1086,7 +1086,7 @@ trait GenericDriverTestsTrait
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createContextStub(): Context
+    protected function createContextStub(): ContextInterface
     {
         $context = $this->createContextMock();
 

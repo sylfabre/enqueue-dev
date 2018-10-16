@@ -4,8 +4,8 @@ namespace Enqueue\Gearman\Tests;
 
 use Enqueue\Gearman\GearmanDestination;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Queue;
-use Interop\Queue\Topic;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\TopicInterface;
 use PHPUnit\Framework\TestCase;
 
 class GearmanDestinationTest extends TestCase
@@ -15,12 +15,12 @@ class GearmanDestinationTest extends TestCase
 
     public function testShouldImplementQueueInterface()
     {
-        $this->assertClassImplements(Queue::class, GearmanDestination::class);
+        $this->assertClassImplements(QueueInterface::class, GearmanDestination::class);
     }
 
     public function testShouldImplementTopicInterface()
     {
-        $this->assertClassImplements(Topic::class, GearmanDestination::class);
+        $this->assertClassImplements(TopicInterface::class, GearmanDestination::class);
     }
 
     public function testShouldAllowGetNameSetInConstructor()

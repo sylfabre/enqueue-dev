@@ -6,9 +6,9 @@ use Enqueue\Client\Message;
 use Enqueue\Stomp\StompContext;
 use Enqueue\Stomp\StompDestination;
 use Enqueue\Stomp\StompMessage;
-use Interop\Queue\Destination;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Queue as InteropQueue;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\QueueInterface as InteropQueue;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -57,7 +57,7 @@ class StompDriver extends GenericDriver
     /**
      * @return StompDestination
      */
-    protected function createRouterTopic(): Destination
+    protected function createRouterTopic(): DestinationInterface
     {
         /** @var StompDestination $topic */
         $topic = $this->doCreateTopic(

@@ -4,7 +4,7 @@ namespace Enqueue\Tests;
 
 use Enqueue\Redis\RedisConnectionFactory;
 use Enqueue\Resources;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
 class ResourcesTest extends TestCase
@@ -69,7 +69,7 @@ class ResourcesTest extends TestCase
 
     public function testThrowsIfNoSchemesProvidedOnAddConnection()
     {
-        $connectionClass = $this->getMockClass(ConnectionFactory::class);
+        $connectionClass = $this->getMockClass(ConnectionFactoryInterface::class);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Schemes could not be empty.');
@@ -79,7 +79,7 @@ class ResourcesTest extends TestCase
 
     public function testThrowsIfNoPackageProvidedOnAddConnection()
     {
-        $connectionClass = $this->getMockClass(ConnectionFactory::class);
+        $connectionClass = $this->getMockClass(ConnectionFactoryInterface::class);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Package name could not be empty.');
@@ -103,7 +103,7 @@ class ResourcesTest extends TestCase
 
     public function testShouldAllowGetPreviouslyRegisteredConnection()
     {
-        $connectionClass = $this->getMockClass(ConnectionFactory::class);
+        $connectionClass = $this->getMockClass(ConnectionFactoryInterface::class);
 
         Resources::addConnection(
             $connectionClass,

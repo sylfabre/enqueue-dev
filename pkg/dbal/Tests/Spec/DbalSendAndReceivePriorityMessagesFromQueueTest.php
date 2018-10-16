@@ -4,7 +4,7 @@ namespace Enqueue\Dbal\Tests\Spec;
 
 use Enqueue\Dbal\DbalContext;
 use Enqueue\Dbal\DbalMessage;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Spec\SendAndReceivePriorityMessagesFromQueueSpec;
 
 /**
@@ -24,7 +24,7 @@ class DbalSendAndReceivePriorityMessagesFromQueueTest extends SendAndReceivePrio
     }
 
     /**
-     * @return Context
+     * @return ContextInterface
      */
     protected function createContext()
     {
@@ -38,7 +38,7 @@ class DbalSendAndReceivePriorityMessagesFromQueueTest extends SendAndReceivePrio
      *
      * @return DbalMessage
      */
-    protected function createMessage(Context $context, $body)
+    protected function createMessage(ContextInterface $context, $body)
     {
         /** @var DbalMessage $message */
         $message = parent::createMessage($context, $body);

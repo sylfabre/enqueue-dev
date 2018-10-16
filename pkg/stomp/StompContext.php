@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Enqueue\Stomp;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\PurgeQueueNotSupportedException;
 use Interop\Queue\Exception\SubscriptionConsumerNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
-use Interop\Queue\Topic;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
+use Interop\Queue\TopicInterface;
 
-class StompContext implements Context
+class StompContext implements ContextInterface
 {
     /**
      * @var BufferedStompClient
@@ -45,7 +45,7 @@ class StompContext implements Context
     /**
      * @return StompMessage
      */
-    public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
+    public function createMessage(string $body = '', array $properties = [], array $headers = []): MessageInterface
     {
         return new StompMessage($body, $properties, $headers);
     }
@@ -53,7 +53,7 @@ class StompContext implements Context
     /**
      * @return StompDestination
      */
-    public function createQueue(string $name): Queue
+    public function createQueue(string $name): QueueInterface
     {
         if (0 !== strpos($name, '/')) {
             $destination = new StompDestination();
@@ -69,7 +69,7 @@ class StompContext implements Context
     /**
      * @return StompDestination
      */
-    public function createTemporaryQueue(): Queue
+    public function createTemporaryQueue(): QueueInterface
     {
         $queue = $this->createQueue(uniqid('', true));
         $queue->setType(StompDestination::TYPE_TEMP_QUEUE);
@@ -80,7 +80,7 @@ class StompContext implements Context
     /**
      * @return StompDestination
      */
-    public function createTopic(string $name): Topic
+    public function createTopic(string $name): TopicInterface
     {
         if (0 !== strpos($name, '/')) {
             $destination = new StompDestination();
@@ -156,7 +156,7 @@ class StompContext implements Context
      *
      * @return StompConsumer
      */
-    public function createConsumer(Destination $destination): Consumer
+    public function createConsumer(DestinationInterface $destination): ConsumerInterface
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, StompDestination::class);
 
@@ -166,7 +166,7 @@ class StompContext implements Context
     /**
      * @return StompProducer
      */
-    public function createProducer(): Producer
+    public function createProducer(): ProducerInterface
     {
         return new StompProducer($this->getStomp());
     }
@@ -176,12 +176,12 @@ class StompContext implements Context
         $this->getStomp()->disconnect();
     }
 
-    public function createSubscriptionConsumer(): SubscriptionConsumer
+    public function createSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         throw SubscriptionConsumerNotSupportedException::providerDoestNotSupportIt();
     }
 
-    public function purgeQueue(Queue $queue): void
+    public function purgeQueue(QueueInterface $queue): void
     {
         throw PurgeQueueNotSupportedException::providerDoestNotSupportIt();
     }

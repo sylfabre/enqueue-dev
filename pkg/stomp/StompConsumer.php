@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Enqueue\Stomp;
 
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 use Stomp\Client;
 use Stomp\Transport\Frame;
 
-class StompConsumer implements Consumer
+class StompConsumer implements ConsumerInterface
 {
     const ACK_AUTO = 'auto';
     const ACK_CLIENT = 'client';
@@ -87,12 +87,12 @@ class StompConsumer implements Consumer
     /**
      * @return StompDestination
      */
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->queue;
     }
 
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         $this->subscribe();
 
@@ -111,7 +111,7 @@ class StompConsumer implements Consumer
         return null;
     }
 
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         $this->subscribe();
 
@@ -125,7 +125,7 @@ class StompConsumer implements Consumer
     /**
      * @param StompMessage $message
      */
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, StompMessage::class);
 
@@ -137,7 +137,7 @@ class StompConsumer implements Consumer
     /**
      * @param StompMessage $message
      */
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, StompMessage::class);
 

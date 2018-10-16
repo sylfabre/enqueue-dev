@@ -3,8 +3,8 @@
 namespace Enqueue\Gearman\Tests\Spec;
 
 use Enqueue\Gearman\GearmanConnectionFactory;
-use Interop\Queue\Context;
-use Interop\Queue\Queue;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\QueueInterface;
 use Interop\Queue\Spec\SendToAndReceiveFromQueueSpec;
 
 /**
@@ -23,12 +23,12 @@ class GearmanSendToAndReceiveFromQueueTest extends SendToAndReceiveFromQueueSpec
     }
 
     /**
-     * @param Context $context
+     * @param ContextInterface $context
      * @param string  $queueName
      *
-     * @return Queue
+     * @return QueueInterface
      */
-    protected function createQueue(Context $context, $queueName)
+    protected function createQueue(ContextInterface $context, $queueName)
     {
         return $context->createQueue($queueName.time());
     }

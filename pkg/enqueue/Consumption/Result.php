@@ -2,25 +2,25 @@
 
 namespace Enqueue\Consumption;
 
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Processor;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProcessorInterface;
 
 class Result
 {
     /**
-     * @see Processor::ACK for more details
+     * @see ProcessorInterface::ACK for more details
      */
-    const ACK = Processor::ACK;
+    const ACK = ProcessorInterface::ACK;
 
     /**
-     * @see Processor::ACK for more details
+     * @see ProcessorInterface::ACK for more details
      */
-    const REJECT = Processor::REJECT;
+    const REJECT = ProcessorInterface::REJECT;
 
     /**
-     * @see Processor::ACK for more details
+     * @see ProcessorInterface::ACK for more details
      */
-    const REQUEUE = Processor::REQUEUE;
+    const REQUEUE = ProcessorInterface::REQUEUE;
 
     const ALREADY_ACKNOWLEDGED = 'enqueue.already_acknowledged';
 

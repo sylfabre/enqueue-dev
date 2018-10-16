@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue\Null;
 
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 
-class NullMessage implements Message
+class NullMessage implements MessageInterface
 {
     /**
      * @var string

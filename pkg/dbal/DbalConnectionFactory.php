@@ -6,10 +6,10 @@ namespace Enqueue\Dbal;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
-use Interop\Queue\ConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ConnectionFactoryInterface;
+use Interop\Queue\ContextInterface;
 
-class DbalConnectionFactory implements ConnectionFactory
+class DbalConnectionFactory implements ConnectionFactoryInterface
 {
     /**
      * @var array
@@ -64,7 +64,7 @@ class DbalConnectionFactory implements ConnectionFactory
     /**
      * @return DbalContext
      */
-    public function createContext(): Context
+    public function createContext(): ContextInterface
     {
         if ($this->config['lazy']) {
             return new DbalContext(function () {

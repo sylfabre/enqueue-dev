@@ -12,7 +12,7 @@ use Enqueue\Redis\RedisMessage;
 use Enqueue\Redis\RedisProducer;
 use Enqueue\Redis\RedisSubscriptionConsumer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
 
@@ -22,7 +22,7 @@ class RedisContextTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementContextInterface()
     {
-        $this->assertClassImplements(Context::class, RedisContext::class);
+        $this->assertClassImplements(ContextInterface::class, RedisContext::class);
     }
 
     public function testCouldBeConstructedWithRedisAsFirstArgument()

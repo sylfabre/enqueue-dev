@@ -9,10 +9,10 @@ use Enqueue\Sqs\SqsDestination;
 use Enqueue\Sqs\SqsMessage;
 use Enqueue\Sqs\SqsProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Producer;
+use Interop\Queue\ProducerInterface;
 
 class SqsProducerTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class SqsProducerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementProducerInterface()
     {
-        $this->assertClassImplements(Producer::class, SqsProducer::class);
+        $this->assertClassImplements(ProducerInterface::class, SqsProducer::class);
     }
 
     public function testCouldBeConstructedWithRequiredArguments()
@@ -47,7 +47,7 @@ class SqsProducerTest extends \PHPUnit_Framework_TestCase
 
         $producer = new SqsProducer($this->createSqsContextMock());
 
-        $producer->send($this->createMock(Destination::class), new SqsMessage());
+        $producer->send($this->createMock(DestinationInterface::class), new SqsMessage());
     }
 
     public function testShouldThrowIfSendMessageFailed()

@@ -7,9 +7,9 @@ use Enqueue\Null\NullMessage;
 use Enqueue\Null\NullQueue;
 use Enqueue\Rpc\Promise;
 use Enqueue\Rpc\RpcClient;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Producer as InteropProducer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\ProducerInterface as InteropProducer;
 use PHPUnit\Framework\TestCase;
 
 class RpcClientTest extends TestCase
@@ -220,7 +220,7 @@ class RpcClientTest extends TestCase
             ->willReturn($receivedMessage)
         ;
 
-        $context = $this->getMockBuilder(Context::class)
+        $context = $this->getMockBuilder(ContextInterface::class)
             ->disableOriginalConstructor()
             ->setMethods(['deleteQueue'])
             ->getMockForAbstractClass()
@@ -329,7 +329,7 @@ class RpcClientTest extends TestCase
     }
 
     /**
-     * @return Context|\PHPUnit_Framework_MockObject_MockObject|InteropProducer
+     * @return ContextInterface|\PHPUnit_Framework_MockObject_MockObject|InteropProducer
      */
     private function createInteropProducerMock()
     {
@@ -337,18 +337,18 @@ class RpcClientTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Consumer
+     * @return \PHPUnit_Framework_MockObject_MockObject|ConsumerInterface
      */
     private function createConsumerMock()
     {
-        return $this->createMock(Consumer::class);
+        return $this->createMock(ConsumerInterface::class);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Context
+     * @return \PHPUnit_Framework_MockObject_MockObject|ContextInterface
      */
     private function createContextMock()
     {
-        return $this->createMock(Context::class);
+        return $this->createMock(ContextInterface::class);
     }
 }

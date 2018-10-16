@@ -2,9 +2,9 @@
 
 namespace Enqueue\Client;
 
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 
 interface DriverFactoryInterface
 {
-    public function create(ConnectionFactory $factory, string $dsn, array $config): DriverInterface;
+    public function create(ConnectionFactoryInterface $factory, string $dsn, array $config): DriverInterface;
 }

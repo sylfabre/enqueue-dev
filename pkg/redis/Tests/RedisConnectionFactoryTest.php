@@ -5,7 +5,7 @@ namespace Enqueue\Redis\Tests;
 use Enqueue\Redis\RedisConnectionFactory;
 use Enqueue\Redis\RedisContext;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
 class RedisConnectionFactoryTest extends TestCase
@@ -14,7 +14,7 @@ class RedisConnectionFactoryTest extends TestCase
 
     public function testShouldImplementConnectionFactoryInterface()
     {
-        $this->assertClassImplements(ConnectionFactory::class, RedisConnectionFactory::class);
+        $this->assertClassImplements(ConnectionFactoryInterface::class, RedisConnectionFactory::class);
     }
 
     public function testShouldCreateLazyContext()

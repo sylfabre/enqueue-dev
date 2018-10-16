@@ -2,18 +2,18 @@
 
 namespace Enqueue\Redis\Tests\Functional;
 
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
 
-class StubProcessor implements Processor
+class StubProcessor implements ProcessorInterface
 {
     public $result = self::ACK;
 
-    /** @var Message */
+    /** @var MessageInterface */
     public $lastProcessedMessage;
 
-    public function process(Message $message, Context $context)
+    public function process(MessageInterface $message, ContextInterface $context)
     {
         $this->lastProcessedMessage = $message;
 

@@ -5,7 +5,7 @@ namespace Enqueue\Pheanstalk\Tests;
 use Enqueue\Null\NullQueue;
 use Enqueue\Pheanstalk\PheanstalkContext;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
 use Pheanstalk\Connection;
@@ -18,7 +18,7 @@ class PheanstalkContextTest extends TestCase
 
     public function testShouldImplementContextInterface()
     {
-        $this->assertClassImplements(Context::class, PheanstalkContext::class);
+        $this->assertClassImplements(ContextInterface::class, PheanstalkContext::class);
     }
 
     public function testCouldBeConstructedWithPheanstalkAsFirstArgument()

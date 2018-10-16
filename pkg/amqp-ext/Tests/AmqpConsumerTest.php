@@ -6,7 +6,7 @@ use Enqueue\AmqpExt\AmqpConsumer;
 use Enqueue\AmqpExt\AmqpContext;
 use Enqueue\Test\ClassExtensionTrait;
 use Interop\Amqp\Impl\AmqpQueue;
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use PHPUnit\Framework\TestCase;
 
 class AmqpConsumerTest extends TestCase
@@ -15,7 +15,7 @@ class AmqpConsumerTest extends TestCase
 
     public function testShouldImplementConsumerInterface()
     {
-        $this->assertClassImplements(Consumer::class, AmqpConsumer::class);
+        $this->assertClassImplements(ConsumerInterface::class, AmqpConsumer::class);
     }
 
     public function testCouldBeConstructedWithContextAndQueueAsArguments()

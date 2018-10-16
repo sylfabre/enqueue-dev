@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Enqueue\Mongodb;
 
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 
-class MongodbConsumer implements Consumer
+class MongodbConsumer implements ConsumerInterface
 {
     /**
      * @var MongodbContext
@@ -53,7 +53,7 @@ class MongodbConsumer implements Consumer
     /**
      * @return MongodbDestination
      */
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->queue;
     }
@@ -61,7 +61,7 @@ class MongodbConsumer implements Consumer
     /**
      * @return MongodbMessage
      */
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         $timeout /= 1000;
         $startAt = microtime(true);
@@ -88,7 +88,7 @@ class MongodbConsumer implements Consumer
     /**
      * @return MongodbMessage
      */
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         return $this->receiveMessage();
     }
@@ -96,7 +96,7 @@ class MongodbConsumer implements Consumer
     /**
      * @param MongodbMessage $message
      */
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
         // does nothing
     }
@@ -104,7 +104,7 @@ class MongodbConsumer implements Consumer
     /**
      * @param MongodbMessage $message
      */
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, MongodbMessage::class);
 

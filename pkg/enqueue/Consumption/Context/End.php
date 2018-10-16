@@ -2,13 +2,13 @@
 
 namespace Enqueue\Consumption\Context;
 
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Psr\Log\LoggerInterface;
 
 final class End
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
@@ -27,7 +27,7 @@ final class End
      */
     private $logger;
 
-    public function __construct(Context $context, int $startTime, int $endTime, LoggerInterface $logger)
+    public function __construct(ContextInterface $context, int $startTime, int $endTime, LoggerInterface $logger)
     {
         $this->context = $context;
         $this->logger = $logger;
@@ -35,7 +35,7 @@ final class End
         $this->endTime = $endTime;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }

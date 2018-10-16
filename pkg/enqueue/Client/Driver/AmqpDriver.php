@@ -11,10 +11,10 @@ use Interop\Amqp\AmqpMessage;
 use Interop\Amqp\AmqpQueue;
 use Interop\Amqp\AmqpTopic;
 use Interop\Amqp\Impl\AmqpBind;
-use Interop\Queue\Destination;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -96,7 +96,7 @@ class AmqpDriver extends GenericDriver
     /**
      * @return AmqpTopic
      */
-    protected function createRouterTopic(): Destination
+    protected function createRouterTopic(): DestinationInterface
     {
         $topic = $this->doCreateTopic(
             $this->createTransportRouterTopicName($this->getConfig()->getRouterTopic(), true)
@@ -124,7 +124,7 @@ class AmqpDriver extends GenericDriver
      * @param AmqpTopic    $topic
      * @param AmqpMessage  $transportMessage
      */
-    protected function doSendToRouter(InteropProducer $producer, Destination $topic, InteropMessage $transportMessage): void
+    protected function doSendToRouter(InteropProducer $producer, DestinationInterface $topic, InteropMessage $transportMessage): void
     {
         // We should not handle priority, expiration, and delay at this stage.
         // The router will take care of it while re-sending the message to the final destinations.

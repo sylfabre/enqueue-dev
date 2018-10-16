@@ -10,7 +10,7 @@ use Enqueue\Consumption\QueueConsumerInterface;
 use Enqueue\Symfony\Consumption\ChooseLoggerCommandTrait;
 use Enqueue\Symfony\Consumption\LimitsExtensionsCommandTrait;
 use Enqueue\Symfony\Consumption\QueueConsumerOptionsCommandTrait;
-use Interop\Queue\Processor;
+use Interop\Queue\ProcessorInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Command\Command;
@@ -152,7 +152,7 @@ class ConsumeCommand extends Command
         return $this->container->get(sprintf($this->queueConsumerIdPattern, $name));
     }
 
-    private function getProcessor(string $name): Processor
+    private function getProcessor(string $name): ProcessorInterface
     {
         return $this->container->get(sprintf($this->processorIdPattern, $name));
     }

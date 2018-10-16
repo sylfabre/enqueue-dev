@@ -9,10 +9,10 @@ use Enqueue\Consumption\QueueSubscriberInterface;
 use Enqueue\Container\Container;
 use Enqueue\Symfony\Consumption\ConfigurableConsumeCommand;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Processor;
-use Interop\Queue\Queue as InteropQueue;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProcessorInterface;
+use Interop\Queue\QueueInterface as InteropQueue;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -192,8 +192,8 @@ class ConfigurableConsumeCommandTest extends TestCase
 
     public function testShouldExecuteConsumptionWhenProcessorImplementsQueueSubscriberInterface()
     {
-        $processor = new class() implements Processor, QueueSubscriberInterface {
-            public function process(InteropMessage $message, Context $context)
+        $processor = new class() implements ProcessorInterface, QueueSubscriberInterface {
+            public function process(InteropMessage $message, ContextInterface $context)
             {
             }
 
@@ -282,11 +282,11 @@ class ConfigurableConsumeCommandTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Processor
+     * @return \PHPUnit_Framework_MockObject_MockObject|ProcessorInterface
      */
     protected function createProcessor()
     {
-        return $this->createMock(Processor::class);
+        return $this->createMock(ProcessorInterface::class);
     }
 
     /**

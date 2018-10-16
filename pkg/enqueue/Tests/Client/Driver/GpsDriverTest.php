@@ -13,11 +13,11 @@ use Enqueue\Gps\GpsProducer;
 use Enqueue\Gps\GpsQueue;
 use Enqueue\Gps\GpsTopic;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\Topic as InteropTopic;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\TopicInterface as InteropTopic;
 use PHPUnit\Framework\TestCase;
 
 class GpsDriverTest extends TestCase
@@ -98,7 +98,7 @@ class GpsDriverTest extends TestCase
     /**
      * @return GpsContext
      */
-    protected function createContextMock(): Context
+    protected function createContextMock(): ContextInterface
     {
         return $this->createMock(GpsContext::class);
     }

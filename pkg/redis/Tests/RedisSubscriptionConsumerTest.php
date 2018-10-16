@@ -5,9 +5,9 @@ namespace Enqueue\Redis\Tests;
 use Enqueue\Redis\RedisConsumer;
 use Enqueue\Redis\RedisContext;
 use Enqueue\Redis\RedisSubscriptionConsumer;
-use Interop\Queue\Consumer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
 use PHPUnit\Framework\TestCase;
 
 class RedisSubscriptionConsumerTest extends TestCase
@@ -16,7 +16,7 @@ class RedisSubscriptionConsumerTest extends TestCase
     {
         $rc = new \ReflectionClass(RedisSubscriptionConsumer::class);
 
-        $this->assertTrue($rc->implementsInterface(SubscriptionConsumer::class));
+        $this->assertTrue($rc->implementsInterface(SubscriptionConsumerInterface::class));
     }
 
     public function testCouldBeConstructedWithAmqpContextAsFirstArgument()
@@ -152,11 +152,11 @@ class RedisSubscriptionConsumerTest extends TestCase
     /**
      * @param null|mixed $queueName
      *
-     * @return Consumer|\PHPUnit_Framework_MockObject_MockObject
+     * @return ConsumerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private function createConsumerStub($queueName = null)
     {
-        $queueMock = $this->createMock(Queue::class);
+        $queueMock = $this->createMock(QueueInterface::class);
         $queueMock
             ->expects($this->any())
             ->method('getQueueName')

@@ -6,7 +6,7 @@ use Enqueue\Consumption\CallbackProcessor;
 use Enqueue\Null\NullContext;
 use Enqueue\Null\NullMessage;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Processor;
+use Interop\Queue\ProcessorInterface;
 use PHPUnit\Framework\TestCase;
 
 class CallbackProcessorTest extends TestCase
@@ -15,7 +15,7 @@ class CallbackProcessorTest extends TestCase
 
     public function testShouldImplementProcessorInterface()
     {
-        $this->assertClassImplements(Processor::class, CallbackProcessor::class);
+        $this->assertClassImplements(ProcessorInterface::class, CallbackProcessor::class);
     }
 
     public function testCouldBeConstructedWithCallableAsArgument()

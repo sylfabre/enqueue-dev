@@ -3,11 +3,11 @@
 namespace Enqueue\Client;
 
 use Enqueue\Consumption\Result;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProcessorInterface;
 
-final class RouterProcessor implements Processor
+final class RouterProcessor implements ProcessorInterface
 {
     /**
      * @var DriverInterface
@@ -19,7 +19,7 @@ final class RouterProcessor implements Processor
         $this->driver = $driver;
     }
 
-    public function process(InteropMessage $message, Context $context): Result
+    public function process(InteropMessage $message, ContextInterface $context): Result
     {
         if ($message->getProperty(Config::COMMAND)) {
             return Result::reject(sprintf(

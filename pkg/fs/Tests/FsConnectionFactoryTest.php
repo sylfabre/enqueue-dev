@@ -5,7 +5,7 @@ namespace Enqueue\Fs\Tests;
 use Enqueue\Fs\FsConnectionFactory;
 use Enqueue\Fs\FsContext;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 
 class FsConnectionFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,7 +13,7 @@ class FsConnectionFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementConnectionFactoryInterface()
     {
-        $this->assertClassImplements(ConnectionFactory::class, FsConnectionFactory::class);
+        $this->assertClassImplements(ConnectionFactoryInterface::class, FsConnectionFactory::class);
     }
 
     public function testShouldCreateContext()

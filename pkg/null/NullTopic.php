@@ -2,9 +2,9 @@
 
 namespace Enqueue\Null;
 
-use Interop\Queue\Topic;
+use Interop\Queue\TopicInterface;
 
-class NullTopic implements Topic
+class NullTopic implements TopicInterface
 {
     /**
      * @var string

@@ -4,7 +4,7 @@ namespace Enqueue\AmqpLib\Tests;
 
 use Enqueue\AmqpLib\AmqpContext;
 use Enqueue\AmqpLib\AmqpSubscriptionConsumer;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\SubscriptionConsumerInterface;
 use PHPUnit\Framework\TestCase;
 
 class AmqpSubscriptionConsumerTest extends TestCase
@@ -13,7 +13,7 @@ class AmqpSubscriptionConsumerTest extends TestCase
     {
         $rc = new \ReflectionClass(AmqpSubscriptionConsumer::class);
 
-        $this->assertTrue($rc->implementsInterface(SubscriptionConsumer::class));
+        $this->assertTrue($rc->implementsInterface(SubscriptionConsumerInterface::class));
     }
 
     public function testCouldBeConstructedWithAmqpContextAsFirstArgument()

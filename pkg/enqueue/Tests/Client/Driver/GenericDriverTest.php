@@ -10,11 +10,11 @@ use Enqueue\Null\NullMessage;
 use Enqueue\Null\NullQueue;
 use Enqueue\Null\NullTopic;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\Topic as InteropTopic;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\TopicInterface as InteropTopic;
 use PHPUnit\Framework\TestCase;
 
 class GenericDriverTest extends TestCase
@@ -32,9 +32,9 @@ class GenericDriverTest extends TestCase
         return new GenericDriver(...$args);
     }
 
-    protected function createContextMock(): Context
+    protected function createContextMock(): ContextInterface
     {
-        return $this->createMock(Context::class);
+        return $this->createMock(ContextInterface::class);
     }
 
     protected function createProducerMock(): InteropProducer

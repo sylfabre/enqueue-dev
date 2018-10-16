@@ -5,7 +5,7 @@ namespace Enqueue\Client\Driver;
 use Enqueue\Gps\GpsContext;
 use Enqueue\Gps\GpsQueue;
 use Enqueue\Gps\GpsTopic;
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -55,7 +55,7 @@ class GpsDriver extends GenericDriver
     /**
      * @return GpsTopic
      */
-    protected function createRouterTopic(): Destination
+    protected function createRouterTopic(): DestinationInterface
     {
         return $this->doCreateTopic(
             $this->createTransportRouterTopicName($this->getConfig()->getRouterTopic(), true)

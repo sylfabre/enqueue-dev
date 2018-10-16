@@ -4,13 +4,13 @@ namespace Enqueue\AsyncCommand;
 
 use Enqueue\Client\CommandSubscriberInterface;
 use Enqueue\Consumption\Result;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-final class RunCommandProcessor implements Processor, CommandSubscriberInterface
+final class RunCommandProcessor implements ProcessorInterface, CommandSubscriberInterface
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ final class RunCommandProcessor implements Processor, CommandSubscriberInterface
         $this->projectDir = $projectDir;
     }
 
-    public function process(Message $message, Context $context): Result
+    public function process(MessageInterface $message, ContextInterface $context): Result
     {
         $command = RunCommand::jsonUnserialize($message->getBody());
 

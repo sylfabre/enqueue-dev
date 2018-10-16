@@ -7,12 +7,12 @@ use Enqueue\Client\ProducerInterface;
 use Enqueue\Consumption\Result;
 use Enqueue\JobQueue\Doctrine\JobStorage;
 use Enqueue\Util\JSON;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 
-class CalculateRootJobStatusProcessor implements Processor, CommandSubscriberInterface
+class CalculateRootJobStatusProcessor implements ProcessorInterface, CommandSubscriberInterface
 {
     /**
      * @var JobStorage
@@ -46,7 +46,7 @@ class CalculateRootJobStatusProcessor implements Processor, CommandSubscriberInt
         $this->logger = $logger;
     }
 
-    public function process(Message $message, Context $context)
+    public function process(MessageInterface $message, ContextInterface $context)
     {
         $data = JSON::decode($message->getBody());
 

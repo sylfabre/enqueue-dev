@@ -4,7 +4,7 @@ namespace Enqueue\AmqpExt\Tests;
 
 use Enqueue\AmqpExt\AmqpProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Producer;
+use Interop\Queue\ProducerInterface;
 use PHPUnit\Framework\TestCase;
 
 class AmqpProducerTest extends TestCase
@@ -13,6 +13,6 @@ class AmqpProducerTest extends TestCase
 
     public function testShouldImplementProducerInterface()
     {
-        $this->assertClassImplements(Producer::class, AmqpProducer::class);
+        $this->assertClassImplements(ProducerInterface::class, AmqpProducer::class);
     }
 }

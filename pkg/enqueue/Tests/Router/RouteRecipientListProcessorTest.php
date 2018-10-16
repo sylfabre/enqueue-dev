@@ -9,9 +9,9 @@ use Enqueue\Router\Recipient;
 use Enqueue\Router\RecipientListRouterInterface;
 use Enqueue\Router\RouteRecipientListProcessor;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Processor;
-use Interop\Queue\Producer as InteropProducer;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\ProcessorInterface;
+use Interop\Queue\ProducerInterface as InteropProducer;
 use PHPUnit\Framework\TestCase;
 
 class RouteRecipientListProcessorTest extends TestCase
@@ -20,7 +20,7 @@ class RouteRecipientListProcessorTest extends TestCase
 
     public function testShouldImplementProcessorInterface()
     {
-        $this->assertClassImplements(Processor::class, RouteRecipientListProcessor::class);
+        $this->assertClassImplements(ProcessorInterface::class, RouteRecipientListProcessor::class);
     }
 
     public function testCouldBeConstructedWithRouterAsFirstArgument()
@@ -78,11 +78,11 @@ class RouteRecipientListProcessorTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Context
+     * @return \PHPUnit_Framework_MockObject_MockObject|ContextInterface
      */
     protected function createContextMock()
     {
-        return $this->createMock(Context::class);
+        return $this->createMock(ContextInterface::class);
     }
 
     /**

@@ -7,11 +7,11 @@ namespace Enqueue\Gps;
 use Google\Cloud\Core\Exception\ServiceException;
 use Google\Cloud\PubSub\Message as GoogleMessage;
 use Google\Cloud\PubSub\Subscription;
-use Interop\Queue\Consumer;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 
-class GpsConsumer implements Consumer
+class GpsConsumer implements ConsumerInterface
 {
     /**
      * @var GpsContext
@@ -37,7 +37,7 @@ class GpsConsumer implements Consumer
     /**
      * @return GpsQueue
      */
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->queue;
     }
@@ -45,7 +45,7 @@ class GpsConsumer implements Consumer
     /**
      * @return GpsMessage
      */
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         if (0 === $timeout) {
             while (true) {
@@ -61,7 +61,7 @@ class GpsConsumer implements Consumer
     /**
      * @return GpsMessage
      */
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         $messages = $this->getSubscription()->pull([
             'maxMessages' => 1,
@@ -78,7 +78,7 @@ class GpsConsumer implements Consumer
     /**
      * @param GpsMessage $message
      */
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
         if (false == $message->getNativeMessage()) {
             throw new \LogicException('Native google pub/sub message required but it is empty');
@@ -90,7 +90,7 @@ class GpsConsumer implements Consumer
     /**
      * @param GpsMessage $message
      */
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         if (false == $message->getNativeMessage()) {
             throw new \LogicException('Native google pub/sub message required but it is empty');

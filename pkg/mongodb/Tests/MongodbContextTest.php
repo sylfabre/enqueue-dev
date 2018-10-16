@@ -8,8 +8,8 @@ use Enqueue\Mongodb\MongodbDestination;
 use Enqueue\Mongodb\MongodbMessage;
 use Enqueue\Mongodb\MongodbProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
 use MongoDB\Client;
@@ -23,7 +23,7 @@ class MongodbContextTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementContextInterface()
     {
-        $this->assertClassImplements(Context::class, MongodbContext::class);
+        $this->assertClassImplements(ContextInterface::class, MongodbContext::class);
     }
 
     public function testCouldBeConstructedWithRequiredArguments()
@@ -164,6 +164,6 @@ class MongodbContextTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class NotSupportedDestination2 implements Destination
+class NotSupportedDestination2 implements DestinationInterface
 {
 }

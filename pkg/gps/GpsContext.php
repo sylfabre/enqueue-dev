@@ -6,20 +6,20 @@ namespace Enqueue\Gps;
 
 use Google\Cloud\Core\Exception\ConflictException;
 use Google\Cloud\PubSub\PubSubClient;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\PurgeQueueNotSupportedException;
 use Interop\Queue\Exception\SubscriptionConsumerNotSupportedException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
-use Interop\Queue\Topic;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
+use Interop\Queue\TopicInterface;
 
-class GpsContext implements Context
+class GpsContext implements ContextInterface
 {
     /**
      * @var PubSubClient
@@ -63,7 +63,7 @@ class GpsContext implements Context
     /**
      * @return GpsMessage
      */
-    public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
+    public function createMessage(string $body = '', array $properties = [], array $headers = []): MessageInterface
     {
         return new GpsMessage($body, $properties, $headers);
     }
@@ -71,7 +71,7 @@ class GpsContext implements Context
     /**
      * @return GpsTopic
      */
-    public function createTopic(string $topicName): Topic
+    public function createTopic(string $topicName): TopicInterface
     {
         return new GpsTopic($topicName);
     }
@@ -79,12 +79,12 @@ class GpsContext implements Context
     /**
      * @return GpsQueue
      */
-    public function createQueue(string $queueName): Queue
+    public function createQueue(string $queueName): QueueInterface
     {
         return new GpsQueue($queueName);
     }
 
-    public function createTemporaryQueue(): Queue
+    public function createTemporaryQueue(): QueueInterface
     {
         throw TemporaryQueueNotSupportedException::providerDoestNotSupportIt();
     }
@@ -92,7 +92,7 @@ class GpsContext implements Context
     /**
      * @return GpsProducer
      */
-    public function createProducer(): Producer
+    public function createProducer(): ProducerInterface
     {
         return new GpsProducer($this);
     }
@@ -102,7 +102,7 @@ class GpsContext implements Context
      *
      * @return GpsConsumer
      */
-    public function createConsumer(Destination $destination): Consumer
+    public function createConsumer(DestinationInterface $destination): ConsumerInterface
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, GpsQueue::class);
 
@@ -113,12 +113,12 @@ class GpsContext implements Context
     {
     }
 
-    public function createSubscriptionConsumer(): SubscriptionConsumer
+    public function createSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         throw SubscriptionConsumerNotSupportedException::providerDoestNotSupportIt();
     }
 
-    public function purgeQueue(Queue $queue): void
+    public function purgeQueue(QueueInterface $queue): void
     {
         throw PurgeQueueNotSupportedException::providerDoestNotSupportIt();
     }

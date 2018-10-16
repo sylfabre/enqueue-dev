@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue\Gearman;
 
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 
-class GearmanMessage implements Message, \JsonSerializable
+class GearmanMessage implements MessageInterface, \JsonSerializable
 {
     /**
      * @var string

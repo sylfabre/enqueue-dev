@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Enqueue\Gps;
 
 use Google\Cloud\PubSub\Message as GoogleMessage;
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 
-class GpsMessage implements Message, \JsonSerializable
+class GpsMessage implements MessageInterface, \JsonSerializable
 {
     /**
      * @var string

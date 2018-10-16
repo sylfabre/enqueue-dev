@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Enqueue\Stomp;
 
 use Enqueue\Dsn\Dsn;
-use Interop\Queue\ConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ConnectionFactoryInterface;
+use Interop\Queue\ContextInterface;
 use Stomp\Network\Connection;
 
-class StompConnectionFactory implements ConnectionFactory
+class StompConnectionFactory implements ConnectionFactoryInterface
 {
     /**
      * @var array
@@ -64,7 +64,7 @@ class StompConnectionFactory implements ConnectionFactory
     /**
      * @return StompContext
      */
-    public function createContext(): Context
+    public function createContext(): ContextInterface
     {
         if ($this->config['lazy']) {
             return new StompContext(function () {

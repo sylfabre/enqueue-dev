@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue\Dbal;
 
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 
-class DbalMessage implements Message
+class DbalMessage implements MessageInterface
 {
     /**
      * @var string

@@ -4,8 +4,8 @@ namespace Enqueue\Redis\Tests;
 
 use Enqueue\Redis\RedisDestination;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Queue;
-use Interop\Queue\Topic;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\TopicInterface;
 
 class RedisDestinationTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,8 +13,8 @@ class RedisDestinationTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementsTopicAndQueueInterfaces()
     {
-        $this->assertClassImplements(Topic::class, RedisDestination::class);
-        $this->assertClassImplements(Queue::class, RedisDestination::class);
+        $this->assertClassImplements(TopicInterface::class, RedisDestination::class);
+        $this->assertClassImplements(QueueInterface::class, RedisDestination::class);
     }
 
     public function testShouldReturnNameSetInConstructor()

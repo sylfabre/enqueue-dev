@@ -2,10 +2,10 @@
 
 namespace Enqueue\Consumption;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
 
-final class FallbackSubscriptionConsumer implements SubscriptionConsumer
+final class FallbackSubscriptionConsumer implements SubscriptionConsumerInterface
 {
     /**
      * an item contains an array: [Consumer $consumer, callable $callback];.
@@ -37,7 +37,7 @@ final class FallbackSubscriptionConsumer implements SubscriptionConsumer
         while (true) {
             /**
              * @var string
-             * @var Consumer $consumer
+             * @var ConsumerInterface $consumer
              * @var callable $processor
              */
             foreach ($this->subscribers as $queueName => list($consumer, $callback)) {
@@ -62,7 +62,7 @@ final class FallbackSubscriptionConsumer implements SubscriptionConsumer
         }
     }
 
-    public function subscribe(Consumer $consumer, callable $callback): void
+    public function subscribe(ConsumerInterface $consumer, callable $callback): void
     {
         $queueName = $consumer->getQueue()->getQueueName();
         if (array_key_exists($queueName, $this->subscribers)) {
@@ -76,7 +76,7 @@ final class FallbackSubscriptionConsumer implements SubscriptionConsumer
         $this->subscribers[$queueName] = [$consumer, $callback];
     }
 
-    public function unsubscribe(Consumer $consumer): void
+    public function unsubscribe(ConsumerInterface $consumer): void
     {
         if (false == array_key_exists($consumer->getQueue()->getQueueName(), $this->subscribers)) {
             return;

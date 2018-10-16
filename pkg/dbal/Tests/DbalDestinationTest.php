@@ -4,9 +4,9 @@ namespace Enqueue\Dbal\Tests;
 
 use Enqueue\Dbal\DbalDestination;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Destination;
-use Interop\Queue\Queue;
-use Interop\Queue\Topic;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\TopicInterface;
 
 class DbalDestinationTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,17 +14,17 @@ class DbalDestinationTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementDestinationInterface()
     {
-        $this->assertClassImplements(Destination::class, DbalDestination::class);
+        $this->assertClassImplements(DestinationInterface::class, DbalDestination::class);
     }
 
     public function testShouldImplementTopicInterface()
     {
-        $this->assertClassImplements(Topic::class, DbalDestination::class);
+        $this->assertClassImplements(TopicInterface::class, DbalDestination::class);
     }
 
     public function testShouldImplementQueueInterface()
     {
-        $this->assertClassImplements(Queue::class, DbalDestination::class);
+        $this->assertClassImplements(QueueInterface::class, DbalDestination::class);
     }
 
     public function testShouldReturnTopicAndQueuePreviouslySetInConstructor()

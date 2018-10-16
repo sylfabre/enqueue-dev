@@ -17,10 +17,10 @@ use Interop\Amqp\Impl\AmqpBind;
 use Interop\Amqp\Impl\AmqpMessage;
 use Interop\Amqp\Impl\AmqpQueue;
 use Interop\Amqp\Impl\AmqpTopic;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
 use PHPUnit\Framework\TestCase;
 
 class AmqpDriverTest extends TestCase
@@ -291,7 +291,7 @@ class AmqpDriverTest extends TestCase
     /**
      * @return AmqpContext
      */
-    protected function createContextMock(): Context
+    protected function createContextMock(): ContextInterface
     {
         return $this->createMock(AmqpContext::class);
     }

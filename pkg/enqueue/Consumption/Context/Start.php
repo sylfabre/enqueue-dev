@@ -3,13 +3,13 @@
 namespace Enqueue\Consumption\Context;
 
 use Enqueue\Consumption\BoundProcessor;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Psr\Log\LoggerInterface;
 
 final class Start
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
@@ -41,7 +41,7 @@ final class Start
     /**
      * @param BoundProcessor[] $processors
      */
-    public function __construct(Context $context, LoggerInterface $logger, array $processors, int $receiveTimeout, int $startTime)
+    public function __construct(ContextInterface $context, LoggerInterface $logger, array $processors, int $receiveTimeout, int $startTime)
     {
         $this->context = $context;
         $this->logger = $logger;
@@ -52,7 +52,7 @@ final class Start
         $this->executionInterrupted = false;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }

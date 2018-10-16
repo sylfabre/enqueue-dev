@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Enqueue\Fs;
 
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 
-class FsConsumer implements Consumer
+class FsConsumer implements ConsumerInterface
 {
     /**
      * @var FsDestination
@@ -66,7 +66,7 @@ class FsConsumer implements Consumer
     /**
      * @return FsDestination
      */
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->destination;
     }
@@ -74,7 +74,7 @@ class FsConsumer implements Consumer
     /**
      * @return FsMessage
      */
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         $timeout /= 1000;
         $startAt = microtime(true);
@@ -101,7 +101,7 @@ class FsConsumer implements Consumer
     /**
      * @return FsMessage
      */
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         if ($this->preFetchedMessages) {
             return array_shift($this->preFetchedMessages);
@@ -154,12 +154,12 @@ class FsConsumer implements Consumer
         return null;
     }
 
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
         // do nothing. fs transport always works in auto ack mode
     }
 
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, FsMessage::class);
 

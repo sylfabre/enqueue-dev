@@ -3,19 +3,19 @@
 namespace Enqueue\Consumption\Context;
 
 use Enqueue\Consumption\Result;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
 use Psr\Log\LoggerInterface;
 
 final class ProcessorException
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @var Message
+     * @var MessageInterface
      */
     private $message;
 
@@ -38,7 +38,7 @@ final class ProcessorException
      */
     private $logger;
 
-    public function __construct(Context $context, Message $message, \Exception $exception, int $receivedAt, LoggerInterface $logger)
+    public function __construct(ContextInterface $context, MessageInterface $message, \Exception $exception, int $receivedAt, LoggerInterface $logger)
     {
         $this->context = $context;
         $this->message = $message;
@@ -47,12 +47,12 @@ final class ProcessorException
         $this->receivedAt = $receivedAt;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }
 
-    public function getMessage(): Message
+    public function getMessage(): MessageInterface
     {
         return $this->message;
     }

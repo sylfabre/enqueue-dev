@@ -2,7 +2,7 @@
 
 namespace Enqueue\AsyncEventDispatcher;
 
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 interface EventTransformer
@@ -11,7 +11,7 @@ interface EventTransformer
      * @param string     $eventName
      * @param Event|null $event
      *
-     * @return Message
+     * @return MessageInterface
      */
     public function toMessage($eventName, Event $event);
 
@@ -21,9 +21,9 @@ interface EventTransformer
      * The object must have a __toString method is supposed to be used as Processor::process return value.
      *
      * @param string  $eventName
-     * @param Message $message
+     * @param MessageInterface $message
      *
      * @return Event|string|object
      */
-    public function toEvent($eventName, Message $message);
+    public function toEvent($eventName, MessageInterface $message);
 }

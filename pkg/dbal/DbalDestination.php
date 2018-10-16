@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\Dbal;
 
-use Interop\Queue\Queue;
-use Interop\Queue\Topic;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\TopicInterface;
 
-class DbalDestination implements Topic, Queue
+class DbalDestination implements TopicInterface, QueueInterface
 {
     /**
      * @var string

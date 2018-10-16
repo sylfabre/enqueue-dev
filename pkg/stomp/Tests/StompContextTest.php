@@ -9,9 +9,9 @@ use Enqueue\Stomp\StompDestination;
 use Enqueue\Stomp\StompMessage;
 use Enqueue\Stomp\StompProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
-use Interop\Queue\Queue;
+use Interop\Queue\QueueInterface;
 
 class StompContextTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +19,7 @@ class StompContextTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementSessionInterface()
     {
-        $this->assertClassImplements(Context::class, StompContext::class);
+        $this->assertClassImplements(ContextInterface::class, StompContext::class);
     }
 
     public function testCouldBeCreatedWithRequiredArguments()
@@ -110,7 +110,7 @@ class StompContextTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('The destination must be an instance of');
 
         $session = new StompContext($this->createStompClientMock());
-        $session->createConsumer($this->createMock(Queue::class));
+        $session->createConsumer($this->createMock(QueueInterface::class));
     }
 
     public function testShouldCreateMessageConsumerInstance()

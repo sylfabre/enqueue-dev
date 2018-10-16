@@ -2,13 +2,13 @@
 
 namespace Enqueue\Router;
 
-use Interop\Queue\Destination;
-use Interop\Queue\Message as InteropMessage;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
 
 class Recipient
 {
     /**
-     * @var Destination
+     * @var DestinationInterface
      */
     private $destination;
 
@@ -18,17 +18,17 @@ class Recipient
     private $message;
 
     /**
-     * @param Destination    $destination
+     * @param DestinationInterface    $destination
      * @param InteropMessage $message
      */
-    public function __construct(Destination $destination, InteropMessage $message)
+    public function __construct(DestinationInterface $destination, InteropMessage $message)
     {
         $this->destination = $destination;
         $this->message = $message;
     }
 
     /**
-     * @return Destination
+     * @return DestinationInterface
      */
     public function getDestination()
     {

@@ -5,7 +5,7 @@ namespace Enqueue\Tests\Symfony;
 use Enqueue\ProcessorRegistryInterface;
 use Enqueue\Symfony\ContainerProcessorRegistry;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Processor;
+use Interop\Queue\ProcessorInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -93,9 +93,9 @@ class ContainerProcessorRegistryTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createProcessorMock(): Processor
+    private function createProcessorMock(): ProcessorInterface
     {
-        return $this->createMock(Processor::class);
+        return $this->createMock(ProcessorInterface::class);
     }
 
     /**

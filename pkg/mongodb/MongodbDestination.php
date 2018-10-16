@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\Mongodb;
 
-use Interop\Queue\Queue;
-use Interop\Queue\Topic;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\TopicInterface;
 
-class MongodbDestination implements Topic, Queue
+class MongodbDestination implements TopicInterface, QueueInterface
 {
     /**
      * @var string

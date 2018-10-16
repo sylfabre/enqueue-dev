@@ -3,14 +3,14 @@
 namespace Enqueue\Rpc;
 
 use Enqueue\Util\UUID;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
-use Interop\Queue\Message as InteropMessage;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
 
 class RpcClient
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
@@ -20,17 +20,17 @@ class RpcClient
     private $rpcFactory;
 
     /**
-     * @param Context    $context
+     * @param ContextInterface    $context
      * @param RpcFactory $promiseFactory
      */
-    public function __construct(Context $context, RpcFactory $promiseFactory = null)
+    public function __construct(ContextInterface $context, RpcFactory $promiseFactory = null)
     {
         $this->context = $context;
         $this->rpcFactory = $promiseFactory ?: new RpcFactory($context);
     }
 
     /**
-     * @param Destination    $destination
+     * @param DestinationInterface    $destination
      * @param InteropMessage $message
      * @param int            $timeout
      *
@@ -38,19 +38,19 @@ class RpcClient
      *
      * @return InteropMessage
      */
-    public function call(Destination $destination, InteropMessage $message, $timeout)
+    public function call(DestinationInterface $destination, InteropMessage $message, $timeout)
     {
         return $this->callAsync($destination, $message, $timeout)->receive();
     }
 
     /**
-     * @param Destination    $destination
+     * @param DestinationInterface    $destination
      * @param InteropMessage $message
      * @param int            $timeout
      *
      * @return Promise
      */
-    public function callAsync(Destination $destination, InteropMessage $message, $timeout)
+    public function callAsync(DestinationInterface $destination, InteropMessage $message, $timeout)
     {
         if ($timeout < 1) {
             throw new \InvalidArgumentException(sprintf('Timeout must be positive not zero integer. Got %s', $timeout));

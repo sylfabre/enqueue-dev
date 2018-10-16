@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Enqueue\Null;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
 
-class NullSubscriptionConsumer implements SubscriptionConsumer
+class NullSubscriptionConsumer implements SubscriptionConsumerInterface
 {
     public function consume(int $timeout = 0): void
     {
     }
 
-    public function subscribe(Consumer $consumer, callable $callback): void
+    public function subscribe(ConsumerInterface $consumer, callable $callback): void
     {
     }
 
-    public function unsubscribe(Consumer $consumer): void
+    public function unsubscribe(ConsumerInterface $consumer): void
     {
     }
 

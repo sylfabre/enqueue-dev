@@ -3,11 +3,11 @@
 namespace Enqueue\Client;
 
 use Enqueue\ProcessorRegistryInterface;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Processor;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProcessorInterface;
 
-class DelegateProcessor implements Processor
+class DelegateProcessor implements ProcessorInterface
 {
     /**
      * @var ProcessorRegistryInterface
@@ -25,7 +25,7 @@ class DelegateProcessor implements Processor
     /**
      * {@inheritdoc}
      */
-    public function process(InteropMessage $message, Context $context)
+    public function process(InteropMessage $message, ContextInterface $context)
     {
         $processorName = $message->getProperty(Config::PROCESSOR);
         if (false == $processorName) {

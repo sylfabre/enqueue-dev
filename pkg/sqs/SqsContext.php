@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Enqueue\Sqs;
 
 use Aws\Sqs\SqsClient;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\SubscriptionConsumerNotSupportedException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
-use Interop\Queue\Topic;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
+use Interop\Queue\TopicInterface;
 
-class SqsContext implements Context
+class SqsContext implements ContextInterface
 {
     /**
      * @var SqsClient
@@ -57,7 +57,7 @@ class SqsContext implements Context
     /**
      * @return SqsMessage
      */
-    public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
+    public function createMessage(string $body = '', array $properties = [], array $headers = []): MessageInterface
     {
         return new SqsMessage($body, $properties, $headers);
     }
@@ -65,7 +65,7 @@ class SqsContext implements Context
     /**
      * @return SqsDestination
      */
-    public function createTopic(string $topicName): Topic
+    public function createTopic(string $topicName): TopicInterface
     {
         return new SqsDestination($topicName);
     }
@@ -73,12 +73,12 @@ class SqsContext implements Context
     /**
      * @return SqsDestination
      */
-    public function createQueue(string $queueName): Queue
+    public function createQueue(string $queueName): QueueInterface
     {
         return new SqsDestination($queueName);
     }
 
-    public function createTemporaryQueue(): Queue
+    public function createTemporaryQueue(): QueueInterface
     {
         throw TemporaryQueueNotSupportedException::providerDoestNotSupportIt();
     }
@@ -86,7 +86,7 @@ class SqsContext implements Context
     /**
      * @return SqsProducer
      */
-    public function createProducer(): Producer
+    public function createProducer(): ProducerInterface
     {
         return new SqsProducer($this);
     }
@@ -96,7 +96,7 @@ class SqsContext implements Context
      *
      * @return SqsConsumer
      */
-    public function createConsumer(Destination $destination): Consumer
+    public function createConsumer(DestinationInterface $destination): ConsumerInterface
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, SqsDestination::class);
 
@@ -110,7 +110,7 @@ class SqsContext implements Context
     /**
      * @param SqsDestination $queue
      */
-    public function purgeQueue(Queue $queue): void
+    public function purgeQueue(QueueInterface $queue): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($queue, SqsDestination::class);
 
@@ -119,7 +119,7 @@ class SqsContext implements Context
         ]);
     }
 
-    public function createSubscriptionConsumer(): SubscriptionConsumer
+    public function createSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         throw SubscriptionConsumerNotSupportedException::providerDoestNotSupportIt();
     }

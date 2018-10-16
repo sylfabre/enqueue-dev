@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Enqueue\Redis;
 
-use Interop\Queue\Queue;
-use Interop\Queue\Topic;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\TopicInterface;
 
-class RedisDestination implements Queue, Topic
+class RedisDestination implements QueueInterface, TopicInterface
 {
     /**
      * @var string

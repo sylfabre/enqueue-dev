@@ -6,7 +6,7 @@ use Aws\Sqs\SqsClient;
 use Enqueue\Sqs\SqsConnectionFactory;
 use Enqueue\Sqs\SqsContext;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\ConnectionFactory;
+use Interop\Queue\ConnectionFactoryInterface;
 
 class SqsConnectionFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -14,7 +14,7 @@ class SqsConnectionFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldImplementConnectionFactoryInterface()
     {
-        $this->assertClassImplements(ConnectionFactory::class, SqsConnectionFactory::class);
+        $this->assertClassImplements(ConnectionFactoryInterface::class, SqsConnectionFactory::class);
     }
 
     public function testCouldBeConstructedWithEmptyConfiguration()

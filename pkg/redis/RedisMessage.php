@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue\Redis;
 
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 
-class RedisMessage implements Message, \JsonSerializable
+class RedisMessage implements MessageInterface, \JsonSerializable
 {
     /**
      * @var string

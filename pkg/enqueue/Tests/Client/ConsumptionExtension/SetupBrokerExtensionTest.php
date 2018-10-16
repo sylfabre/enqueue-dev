@@ -7,7 +7,7 @@ use Enqueue\Client\DriverInterface;
 use Enqueue\Consumption\Context\Start;
 use Enqueue\Consumption\StartExtensionInterface;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context as InteropContext;
+use Interop\Queue\ContextInterface as InteropContext;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 

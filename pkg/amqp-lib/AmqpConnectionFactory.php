@@ -9,7 +9,7 @@ use Enqueue\AmqpTools\DelayStrategyAware;
 use Enqueue\AmqpTools\DelayStrategyAwareTrait;
 use Enqueue\AmqpTools\RabbitMqDlxDelayStrategy;
 use Interop\Amqp\AmqpConnectionFactory as InteropAmqpConnectionFactory;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Connection\AMQPLazyConnection;
 use PhpAmqpLib\Connection\AMQPLazySocketConnection;
@@ -58,7 +58,7 @@ class AmqpConnectionFactory implements InteropAmqpConnectionFactory, DelayStrate
     /**
      * @return AmqpContext
      */
-    public function createContext(): Context
+    public function createContext(): ContextInterface
     {
         $context = new AmqpContext($this->establishConnection(), $this->config->getConfig());
         $context->setDelayStrategy($this->delayStrategy);

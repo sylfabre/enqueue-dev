@@ -4,7 +4,7 @@ namespace Enqueue\AmqpLib\Tests\Spec;
 
 use Enqueue\AmqpLib\AmqpConnectionFactory;
 use Enqueue\AmqpLib\AmqpContext;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Spec\SendAndReceivePriorityMessagesFromQueueSpec;
 
 /**
@@ -27,7 +27,7 @@ class AmqpSendAndReceivePriorityMessagesFromQueueTest extends SendAndReceivePrio
      *
      * @param AmqpContext $context
      */
-    protected function createQueue(Context $context, $queueName)
+    protected function createQueue(ContextInterface $context, $queueName)
     {
         $queue = $context->createQueue($queueName);
         $queue->setArguments(['x-max-priority' => 10]);

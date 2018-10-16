@@ -2,25 +2,25 @@
 
 namespace Enqueue\Consumption\Context;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Processor;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\ProcessorInterface;
 use Psr\Log\LoggerInterface;
 
 final class PreSubscribe
 {
     /**
-     * @var Context
+     * @var ContextInterface
      */
     private $context;
 
     /**
-     * @var Processor
+     * @var ProcessorInterface
      */
     private $processor;
 
     /**
-     * @var Consumer
+     * @var ConsumerInterface
      */
     private $consumer;
 
@@ -29,7 +29,7 @@ final class PreSubscribe
      */
     private $logger;
 
-    public function __construct(Context $context, Processor $processor, Consumer $consumer, LoggerInterface $logger)
+    public function __construct(ContextInterface $context, ProcessorInterface $processor, ConsumerInterface $consumer, LoggerInterface $logger)
     {
         $this->context = $context;
         $this->processor = $processor;
@@ -37,17 +37,17 @@ final class PreSubscribe
         $this->logger = $logger;
     }
 
-    public function getContext(): Context
+    public function getContext(): ContextInterface
     {
         return $this->context;
     }
 
-    public function getProcessor(): Processor
+    public function getProcessor(): ProcessorInterface
     {
         return $this->processor;
     }
 
-    public function getConsumer(): Consumer
+    public function getConsumer(): ConsumerInterface
     {
         return $this->consumer;
     }

@@ -4,7 +4,7 @@ namespace Enqueue\Tests\Consumption\Extension;
 
 use Enqueue\Consumption\Context\Start;
 use Enqueue\Consumption\Extension\NicenessExtension;
-use Interop\Queue\Context as InteropContext;
+use Interop\Queue\ContextInterface as InteropContext;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Enqueue\Redis;
 
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 
-class RedisConsumer implements Consumer
+class RedisConsumer implements ConsumerInterface
 {
     /**
      * @var RedisDestination
@@ -30,7 +30,7 @@ class RedisConsumer implements Consumer
     /**
      * @return RedisDestination
      */
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->queue;
     }
@@ -38,7 +38,7 @@ class RedisConsumer implements Consumer
     /**
      * @return RedisMessage
      */
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         $timeout = (int) ($timeout / 1000);
         if (empty($timeout)) {
@@ -59,7 +59,7 @@ class RedisConsumer implements Consumer
     /**
      * @return RedisMessage
      */
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         if ($result = $this->getRedis()->rpop($this->queue->getName())) {
             return RedisMessage::jsonUnserialize($result->getMessage());
@@ -71,7 +71,7 @@ class RedisConsumer implements Consumer
     /**
      * @param RedisMessage $message
      */
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
         // do nothing. redis transport always works in auto ack mode
     }
@@ -79,7 +79,7 @@ class RedisConsumer implements Consumer
     /**
      * @param RedisMessage $message
      */
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, RedisMessage::class);
 

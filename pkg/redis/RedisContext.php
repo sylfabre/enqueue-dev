@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Enqueue\Redis;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
-use Interop\Queue\Topic;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
+use Interop\Queue\TopicInterface;
 
-class RedisContext implements Context
+class RedisContext implements ContextInterface
 {
     /**
      * @var Redis
@@ -50,7 +50,7 @@ class RedisContext implements Context
     /**
      * @return RedisMessage
      */
-    public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
+    public function createMessage(string $body = '', array $properties = [], array $headers = []): MessageInterface
     {
         return new RedisMessage($body, $properties, $headers);
     }
@@ -58,7 +58,7 @@ class RedisContext implements Context
     /**
      * @return RedisDestination
      */
-    public function createTopic(string $topicName): Topic
+    public function createTopic(string $topicName): TopicInterface
     {
         return new RedisDestination($topicName);
     }
@@ -66,7 +66,7 @@ class RedisContext implements Context
     /**
      * @return RedisDestination
      */
-    public function createQueue(string $queueName): Queue
+    public function createQueue(string $queueName): QueueInterface
     {
         return new RedisDestination($queueName);
     }
@@ -74,7 +74,7 @@ class RedisContext implements Context
     /**
      * @param RedisDestination $queue
      */
-    public function deleteQueue(Queue $queue): void
+    public function deleteQueue(QueueInterface $queue): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($queue, RedisDestination::class);
 
@@ -84,14 +84,14 @@ class RedisContext implements Context
     /**
      * @param RedisDestination $topic
      */
-    public function deleteTopic(Topic $topic): void
+    public function deleteTopic(TopicInterface $topic): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($topic, RedisDestination::class);
 
         $this->getRedis()->del($topic->getName());
     }
 
-    public function createTemporaryQueue(): Queue
+    public function createTemporaryQueue(): QueueInterface
     {
         throw TemporaryQueueNotSupportedException::providerDoestNotSupportIt();
     }
@@ -99,7 +99,7 @@ class RedisContext implements Context
     /**
      * @return RedisProducer
      */
-    public function createProducer(): Producer
+    public function createProducer(): ProducerInterface
     {
         return new RedisProducer($this->getRedis());
     }
@@ -109,7 +109,7 @@ class RedisContext implements Context
      *
      * @return RedisConsumer
      */
-    public function createConsumer(Destination $destination): Consumer
+    public function createConsumer(DestinationInterface $destination): ConsumerInterface
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, RedisDestination::class);
 
@@ -119,7 +119,7 @@ class RedisContext implements Context
     /**
      * @return RedisSubscriptionConsumer
      */
-    public function createSubscriptionConsumer(): SubscriptionConsumer
+    public function createSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         return new RedisSubscriptionConsumer($this);
     }
@@ -127,7 +127,7 @@ class RedisContext implements Context
     /**
      * @param RedisDestination $queue
      */
-    public function purgeQueue(Queue $queue): void
+    public function purgeQueue(QueueInterface $queue): void
     {
         $this->getRedis()->del($queue->getName());
     }

@@ -9,7 +9,7 @@ use Enqueue\Null\NullProducer;
 use Enqueue\Null\NullQueue;
 use Enqueue\Null\NullTopic;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use PHPUnit\Framework\TestCase;
 
 class NullContextTest extends TestCase
@@ -18,7 +18,7 @@ class NullContextTest extends TestCase
 
     public function testShouldImplementSessionInterface()
     {
-        $this->assertClassImplements(Context::class, NullContext::class);
+        $this->assertClassImplements(ContextInterface::class, NullContext::class);
     }
 
     public function testCouldBeConstructedWithoutAnyArguments()

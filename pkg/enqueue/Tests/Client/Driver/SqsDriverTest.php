@@ -12,11 +12,11 @@ use Enqueue\Sqs\SqsDestination;
 use Enqueue\Sqs\SqsMessage;
 use Enqueue\Sqs\SqsProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\Topic as InteropTopic;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\TopicInterface as InteropTopic;
 use PHPUnit\Framework\TestCase;
 
 class SqsDriverTest extends TestCase
@@ -84,7 +84,7 @@ class SqsDriverTest extends TestCase
     /**
      * @return SqsContext
      */
-    protected function createContextMock(): Context
+    protected function createContextMock(): ContextInterface
     {
         return $this->createMock(SqsContext::class);
     }

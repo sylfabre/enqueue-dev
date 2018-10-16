@@ -6,10 +6,10 @@ use Enqueue\Bundle\Tests\Functional\App\CustomAppKernel;
 use Enqueue\Client\DriverInterface;
 use Enqueue\Client\ProducerInterface;
 use Enqueue\Stomp\StompDestination;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Exception\PurgeQueueNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -136,7 +136,7 @@ class UseCasesTest extends WebTestCase
         $consumer = $this->getContext()->createConsumer($this->getTestQueue());
 
         $message = $consumer->receive(100);
-        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInstanceOf(MessageInterface::class, $message);
         $consumer->acknowledge($message);
 
         $this->assertSame($expectedBody, $message->getBody());
@@ -156,10 +156,10 @@ class UseCasesTest extends WebTestCase
         $consumer = $this->getContext()->createConsumer($this->getTestQueue());
 
         $message = $consumer->receive(100);
-        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInstanceOf(MessageInterface::class, $message);
         $consumer->acknowledge($message);
 
-        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInstanceOf(MessageInterface::class, $message);
         $this->assertSame($expectedBody, $message->getBody());
     }
 
@@ -182,7 +182,7 @@ class UseCasesTest extends WebTestCase
         $consumer = $this->getContext()->createConsumer($this->getTestQueue());
 
         $message = $consumer->receive(100);
-        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInstanceOf(MessageInterface::class, $message);
         $consumer->acknowledge($message);
 
         $this->assertSame($expectedBody, $message->getBody());
@@ -207,10 +207,10 @@ class UseCasesTest extends WebTestCase
         $consumer = $this->getContext()->createConsumer($this->getTestQueue());
 
         $message = $consumer->receive(100);
-        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInstanceOf(MessageInterface::class, $message);
         $consumer->acknowledge($message);
 
-        $this->assertInstanceOf(Message::class, $message);
+        $this->assertInstanceOf(MessageInterface::class, $message);
         $this->assertSame($expectedBody, $message->getBody());
     }
 
@@ -248,7 +248,7 @@ class UseCasesTest extends WebTestCase
             'client-queue-names' => ['test'],
         ]);
 
-        $this->assertInstanceOf(Message::class, $processor->message);
+        $this->assertInstanceOf(MessageInterface::class, $processor->message);
         $this->assertEquals($expectedBody, $processor->message->getBody());
     }
 
@@ -273,7 +273,7 @@ class UseCasesTest extends WebTestCase
             'client-queue-names' => ['test'],
         ]);
 
-        $this->assertInstanceOf(Message::class, $processor->message);
+        $this->assertInstanceOf(MessageInterface::class, $processor->message);
         $this->assertEquals($expectedBody, $processor->message->getBody());
     }
 
@@ -305,7 +305,7 @@ class UseCasesTest extends WebTestCase
             'queues' => [$this->getTestQueue()->getQueueName()],
         ]);
 
-        $this->assertInstanceOf(Message::class, $processor->message);
+        $this->assertInstanceOf(MessageInterface::class, $processor->message);
         $this->assertEquals($expectedBody, $processor->message->getBody());
     }
 
@@ -341,7 +341,7 @@ class UseCasesTest extends WebTestCase
     }
 
     /**
-     * @return Queue
+     * @return QueueInterface
      */
     protected function getTestQueue()
     {
@@ -366,7 +366,7 @@ class UseCasesTest extends WebTestCase
         return static::$container->get('enqueue.client.default.producer');
     }
 
-    private function getContext(): Context
+    private function getContext(): ContextInterface
     {
         return static::$container->get('test_enqueue.transport.default.context');
     }

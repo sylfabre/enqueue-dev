@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Enqueue\Mongodb;
 
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Destination;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\SubscriptionConsumerNotSupportedException;
 use Interop\Queue\Exception\TemporaryQueueNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
-use Interop\Queue\Queue;
-use Interop\Queue\SubscriptionConsumer;
-use Interop\Queue\Topic;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
+use Interop\Queue\QueueInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
+use Interop\Queue\TopicInterface;
 use MongoDB\Client;
 use MongoDB\Collection;
 
-class MongodbContext implements Context
+class MongodbContext implements ContextInterface
 {
     /**
      * @var array
@@ -44,7 +44,7 @@ class MongodbContext implements Context
     /**
      * @return MongodbMessage
      */
-    public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
+    public function createMessage(string $body = '', array $properties = [], array $headers = []): MessageInterface
     {
         $message = new MongodbMessage();
         $message->setBody($body);
@@ -57,7 +57,7 @@ class MongodbContext implements Context
     /**
      * @return MongodbDestination
      */
-    public function createTopic(string $name): Topic
+    public function createTopic(string $name): TopicInterface
     {
         return new MongodbDestination($name);
     }
@@ -65,12 +65,12 @@ class MongodbContext implements Context
     /**
      * @return MongodbDestination
      */
-    public function createQueue(string $queueName): Queue
+    public function createQueue(string $queueName): QueueInterface
     {
         return new MongodbDestination($queueName);
     }
 
-    public function createTemporaryQueue(): Queue
+    public function createTemporaryQueue(): QueueInterface
     {
         throw TemporaryQueueNotSupportedException::providerDoestNotSupportIt();
     }
@@ -78,7 +78,7 @@ class MongodbContext implements Context
     /**
      * @return MongodbProducer
      */
-    public function createProducer(): Producer
+    public function createProducer(): ProducerInterface
     {
         return new MongodbProducer($this);
     }
@@ -88,7 +88,7 @@ class MongodbContext implements Context
      *
      * @return MongodbConsumer
      */
-    public function createConsumer(Destination $destination): Consumer
+    public function createConsumer(DestinationInterface $destination): ConsumerInterface
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, MongodbDestination::class);
 
@@ -105,7 +105,7 @@ class MongodbContext implements Context
     {
     }
 
-    public function createSubscriptionConsumer(): SubscriptionConsumer
+    public function createSubscriptionConsumer(): SubscriptionConsumerInterface
     {
         throw SubscriptionConsumerNotSupportedException::providerDoestNotSupportIt();
     }
@@ -113,7 +113,7 @@ class MongodbContext implements Context
     /**
      * @param MongodbDestination $queue
      */
-    public function purgeQueue(Queue $queue): void
+    public function purgeQueue(QueueInterface $queue): void
     {
         $this->getCollection()->deleteMany([
             'queue' => $queue->getQueueName(),

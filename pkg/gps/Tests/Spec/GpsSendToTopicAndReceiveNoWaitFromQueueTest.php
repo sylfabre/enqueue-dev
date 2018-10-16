@@ -4,7 +4,7 @@ namespace Enqueue\Gps\Tests\Spec;
 
 use Enqueue\Gps\GpsContext;
 use Enqueue\Test\GpsExtension;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Spec\SendToTopicAndReceiveNoWaitFromQueueSpec;
 
 /**
@@ -25,7 +25,7 @@ class GpsSendToTopicAndReceiveNoWaitFromQueueTest extends SendToTopicAndReceiveN
      * @param GpsContext $context
      * @param mixed      $queueName
      */
-    protected function createQueue(Context $context, $queueName)
+    protected function createQueue(ContextInterface $context, $queueName)
     {
         $queue = parent::createQueue($context, $queueName);
 
@@ -34,7 +34,7 @@ class GpsSendToTopicAndReceiveNoWaitFromQueueTest extends SendToTopicAndReceiveN
         return $queue;
     }
 
-    protected function createTopic(Context $context, $topicName)
+    protected function createTopic(ContextInterface $context, $topicName)
     {
         return $this->topic = parent::createTopic($context, $topicName);
     }

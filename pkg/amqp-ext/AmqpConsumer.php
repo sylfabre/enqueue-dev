@@ -6,8 +6,8 @@ use Interop\Amqp\AmqpConsumer as InteropAmqpConsumer;
 use Interop\Amqp\AmqpMessage as InteropAmqpMessage;
 use Interop\Amqp\AmqpQueue as InteropAmqpQueue;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Queue;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\QueueInterface;
 
 class AmqpConsumer implements InteropAmqpConsumer
 {
@@ -76,7 +76,7 @@ class AmqpConsumer implements InteropAmqpConsumer
     /**
      * @return InteropAmqpQueue
      */
-    public function getQueue(): Queue
+    public function getQueue(): QueueInterface
     {
         return $this->queue;
     }
@@ -84,7 +84,7 @@ class AmqpConsumer implements InteropAmqpConsumer
     /**
      * @return InteropAmqpMessage
      */
-    public function receive(int $timeout = 0): ?Message
+    public function receive(int $timeout = 0): ?MessageInterface
     {
         $end = microtime(true) + ($timeout / 1000);
 
@@ -102,7 +102,7 @@ class AmqpConsumer implements InteropAmqpConsumer
     /**
      * @return InteropAmqpMessage
      */
-    public function receiveNoWait(): ?Message
+    public function receiveNoWait(): ?MessageInterface
     {
         if ($extMessage = $this->getExtQueue()->get(Flags::convertConsumerFlags($this->flags))) {
             return $this->context->convertMessage($extMessage);
@@ -114,7 +114,7 @@ class AmqpConsumer implements InteropAmqpConsumer
     /**
      * @param InteropAmqpMessage $message
      */
-    public function acknowledge(Message $message): void
+    public function acknowledge(MessageInterface $message): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, InteropAmqpMessage::class);
 
@@ -124,7 +124,7 @@ class AmqpConsumer implements InteropAmqpConsumer
     /**
      * @param InteropAmqpMessage $message
      */
-    public function reject(Message $message, bool $requeue = false): void
+    public function reject(MessageInterface $message, bool $requeue = false): void
     {
         InvalidMessageException::assertMessageInstanceOf($message, InteropAmqpMessage::class);
 

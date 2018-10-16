@@ -5,7 +5,7 @@ namespace Enqueue\Sqs\Tests\Spec;
 use Enqueue\Sqs\SqsContext;
 use Enqueue\Sqs\SqsDestination;
 use Enqueue\Test\SqsExtension;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Spec\SendToAndReceiveFromQueueSpec;
 
 /**
@@ -47,7 +47,7 @@ class SqsSendToAndReceiveFromQueueTest extends SendToAndReceiveFromQueueSpec
      *
      * @param SqsContext $context
      */
-    protected function createQueue(Context $context, $queueName)
+    protected function createQueue(ContextInterface $context, $queueName)
     {
         $queueName = $queueName.time();
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Enqueue\Client;
 
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Queue as InteropQueue;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\QueueInterface as InteropQueue;
 use Psr\Log\LoggerInterface;
 
 interface DriverInterface
@@ -31,7 +31,7 @@ interface DriverInterface
 
     public function getConfig(): Config;
 
-    public function getContext(): Context;
+    public function getContext(): ContextInterface;
 
     public function getRouteCollection(): RouteCollection;
 }

@@ -3,10 +3,10 @@
 namespace Enqueue\Tests\Consumption;
 
 use Enqueue\Consumption\FallbackSubscriptionConsumer;
-use Interop\Queue\Consumer;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\SubscriptionConsumerInterface;
 
 class FallbackSubscriptionConsumerTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class FallbackSubscriptionConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $rc = new \ReflectionClass(FallbackSubscriptionConsumer::class);
 
-        $this->assertTrue($rc->implementsInterface(SubscriptionConsumer::class));
+        $this->assertTrue($rc->implementsInterface(SubscriptionConsumerInterface::class));
     }
 
     public function testCouldBeConstructedWithoutAnyArguments()
@@ -176,7 +176,7 @@ class FallbackSubscriptionConsumerTest extends \PHPUnit_Framework_TestCase
         ;
 
         $actualOrder = [];
-        $callback = function (InteropMessage $message, Consumer $consumer) use (&$actualOrder) {
+        $callback = function (InteropMessage $message, ConsumerInterface $consumer) use (&$actualOrder) {
             $actualOrder[] = [$message->getBody(), $consumer->getQueue()->getQueueName()];
         };
 
@@ -245,7 +245,7 @@ class FallbackSubscriptionConsumerTest extends \PHPUnit_Framework_TestCase
     /**
      * @param null|mixed $queueName
      *
-     * @return Consumer|\PHPUnit_Framework_MockObject_MockObject
+     * @return ConsumerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private function createConsumerStub($queueName = null)
     {
@@ -255,7 +255,7 @@ class FallbackSubscriptionConsumerTest extends \PHPUnit_Framework_TestCase
             ->method('getQueueName')
             ->willReturn($queueName);
 
-        $consumerMock = $this->createMock(Consumer::class);
+        $consumerMock = $this->createMock(ConsumerInterface::class);
         $consumerMock
             ->expects($this->any())
             ->method('getQueue')

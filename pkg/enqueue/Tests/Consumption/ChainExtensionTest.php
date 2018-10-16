@@ -14,11 +14,11 @@ use Enqueue\Consumption\Context\PreSubscribe;
 use Enqueue\Consumption\Context\Start;
 use Enqueue\Consumption\ExtensionInterface;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context;
-use Interop\Queue\Message;
-use Interop\Queue\Processor;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProcessorInterface;
+use Interop\Queue\SubscriptionConsumerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -140,9 +140,9 @@ class ChainExtensionTest extends TestCase
     {
         $context = new MessageReceived(
             $this->createInteropContextMock(),
-            $this->createMock(Consumer::class),
-            $this->createMock(Message::class),
-            $this->createMock(Processor::class),
+            $this->createMock(ConsumerInterface::class),
+            $this->createMock(MessageInterface::class),
+            $this->createMock(ProcessorInterface::class),
             1,
             new NullLogger()
         );
@@ -169,7 +169,7 @@ class ChainExtensionTest extends TestCase
     {
         $context = new MessageResult(
             $this->createInteropContextMock(),
-            $this->createMock(Message::class),
+            $this->createMock(MessageInterface::class),
             'aResult',
             1,
             new NullLogger()
@@ -197,8 +197,8 @@ class ChainExtensionTest extends TestCase
     {
         $context = new PostMessageReceived(
             $this->createInteropContextMock(),
-            $this->createMock(Consumer::class),
-            $this->createMock(Message::class),
+            $this->createMock(ConsumerInterface::class),
+            $this->createMock(MessageInterface::class),
             'aResult',
             1,
             new NullLogger()
@@ -284,25 +284,25 @@ class ChainExtensionTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createInteropContextMock(): Context
+    protected function createInteropContextMock(): ContextInterface
     {
-        return $this->createMock(Context::class);
+        return $this->createMock(ContextInterface::class);
     }
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createInteropConsumerMock(): Consumer
+    protected function createInteropConsumerMock(): ConsumerInterface
     {
-        return $this->createMock(Consumer::class);
+        return $this->createMock(ConsumerInterface::class);
     }
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createInteropProcessorMock(): Processor
+    protected function createInteropProcessorMock(): ProcessorInterface
     {
-        return $this->createMock(Processor::class);
+        return $this->createMock(ProcessorInterface::class);
     }
 
     /**
@@ -316,8 +316,8 @@ class ChainExtensionTest extends TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createSubscriptionConsumerMock(): SubscriptionConsumer
+    private function createSubscriptionConsumerMock(): SubscriptionConsumerInterface
     {
-        return $this->createMock(SubscriptionConsumer::class);
+        return $this->createMock(SubscriptionConsumerInterface::class);
     }
 }

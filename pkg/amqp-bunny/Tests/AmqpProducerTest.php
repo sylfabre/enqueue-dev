@@ -11,12 +11,12 @@ use Interop\Amqp\AmqpMessage as InteropAmqpMessage;
 use Interop\Amqp\Impl\AmqpMessage;
 use Interop\Amqp\Impl\AmqpQueue;
 use Interop\Amqp\Impl\AmqpTopic;
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\DeliveryDelayNotSupportedException;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
 use PHPUnit\Framework\TestCase;
 
 class AmqpProducerTest extends TestCase
@@ -30,7 +30,7 @@ class AmqpProducerTest extends TestCase
 
     public function testShouldImplementQueueInteropProducerInterface()
     {
-        $this->assertClassImplements(Producer::class, AmqpProducer::class);
+        $this->assertClassImplements(ProducerInterface::class, AmqpProducer::class);
     }
 
     public function testShouldThrowExceptionWhenDestinationTypeIsInvalid()
@@ -172,19 +172,19 @@ class AmqpProducerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Message
+     * @return \PHPUnit_Framework_MockObject_MockObject|MessageInterface
      */
     private function createMessageMock()
     {
-        return $this->createMock(Message::class);
+        return $this->createMock(MessageInterface::class);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Destination
+     * @return \PHPUnit_Framework_MockObject_MockObject|DestinationInterface
      */
     private function createDestinationMock()
     {
-        return $this->createMock(Destination::class);
+        return $this->createMock(DestinationInterface::class);
     }
 
     /**

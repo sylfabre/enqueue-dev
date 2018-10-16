@@ -10,9 +10,9 @@ use Enqueue\Sqs\SqsDestination;
 use Enqueue\Sqs\SqsMessage;
 use Enqueue\Sqs\SqsProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Consumer;
+use Interop\Queue\ConsumerInterface;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
+use Interop\Queue\MessageInterface;
 
 class SqsConsumerTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class SqsConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementConsumerInterface()
     {
-        $this->assertClassImplements(Consumer::class, SqsConsumer::class);
+        $this->assertClassImplements(ConsumerInterface::class, SqsConsumer::class);
     }
 
     public function testCouldBeConstructedWithRequiredArguments()
@@ -43,7 +43,7 @@ class SqsConsumerTest extends \PHPUnit_Framework_TestCase
         $this->expectExceptionMessage('The message must be an instance of Enqueue\Sqs\SqsMessage but it is Mock_Message');
 
         $consumer = new SqsConsumer($this->createContextMock(), new SqsDestination('queue'));
-        $consumer->acknowledge($this->createMock(Message::class));
+        $consumer->acknowledge($this->createMock(MessageInterface::class));
     }
 
     public function testCouldAcknowledgeMessage()
@@ -80,7 +80,7 @@ class SqsConsumerTest extends \PHPUnit_Framework_TestCase
         $this->expectExceptionMessage('The message must be an instance of Enqueue\Sqs\SqsMessage but it is Mock_Message');
 
         $consumer = new SqsConsumer($this->createContextMock(), new SqsDestination('queue'));
-        $consumer->reject($this->createMock(Message::class));
+        $consumer->reject($this->createMock(MessageInterface::class));
     }
 
     public function testShouldRejectMessage()

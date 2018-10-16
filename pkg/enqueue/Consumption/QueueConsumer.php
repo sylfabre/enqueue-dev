@@ -14,14 +14,14 @@ use Enqueue\Consumption\Context\ProcessorException;
 use Enqueue\Consumption\Context\Start;
 use Enqueue\Consumption\Exception\InvalidArgumentException;
 use Enqueue\Consumption\Exception\LogicException;
-use Interop\Queue\Consumer;
-use Interop\Queue\Context as InteropContext;
+use Interop\Queue\ConsumerInterface;
+use Interop\Queue\ContextInterface as InteropContext;
 use Interop\Queue\Exception\SubscriptionConsumerNotSupportedException;
-use Interop\Queue\Message;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Processor;
-use Interop\Queue\Queue as InteropQueue;
-use Interop\Queue\SubscriptionConsumer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProcessorInterface;
+use Interop\Queue\QueueInterface as InteropQueue;
+use Interop\Queue\SubscriptionConsumerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -53,7 +53,7 @@ final class QueueConsumer implements QueueConsumerInterface
     private $logger;
 
     /**
-     * @var SubscriptionConsumer
+     * @var SubscriptionConsumerInterface
      */
     private $fallbackSubscriptionConsumer;
 
@@ -97,7 +97,7 @@ final class QueueConsumer implements QueueConsumerInterface
         return $this->interopContext;
     }
 
-    public function bind($queue, Processor $processor): QueueConsumerInterface
+    public function bind($queue, ProcessorInterface $processor): QueueConsumerInterface
     {
         if (is_string($queue)) {
             $queue = $this->interopContext->createQueue($queue);
@@ -160,7 +160,7 @@ final class QueueConsumer implements QueueConsumerInterface
             throw new \LogicException('There is nothing to consume. It is required to bind something before calling consume method.');
         }
 
-        /** @var Consumer[] $consumers */
+        /** @var ConsumerInterface[] $consumers */
         $consumers = [];
         foreach ($this->boundProcessors as $queueName => $boundProcessor) {
             $queue = $boundProcessor->getQueue();
@@ -177,7 +177,7 @@ final class QueueConsumer implements QueueConsumerInterface
         $receivedMessagesCount = 0;
         $interruptExecution = false;
 
-        $callback = function (InteropMessage $message, Consumer $consumer) use (&$receivedMessagesCount, &$interruptExecution, $extension) {
+        $callback = function (InteropMessage $message, ConsumerInterface $consumer) use (&$receivedMessagesCount, &$interruptExecution, $extension) {
             ++$receivedMessagesCount;
 
             $receivedAt = (int) (microtime(true) * 1000);
@@ -233,7 +233,7 @@ final class QueueConsumer implements QueueConsumerInterface
         };
 
         foreach ($consumers as $queueName => $consumer) {
-            /* @var Consumer $consumer */
+            /* @var ConsumerInterface $consumer */
 
             $preSubscribe = new PreSubscribe(
                 $this->interopContext,
@@ -279,14 +279,14 @@ final class QueueConsumer implements QueueConsumerInterface
     /**
      * @internal
      *
-     * @param SubscriptionConsumer $fallbackSubscriptionConsumer
+     * @param SubscriptionConsumerInterface $fallbackSubscriptionConsumer
      */
-    public function setFallbackSubscriptionConsumer(SubscriptionConsumer $fallbackSubscriptionConsumer): void
+    public function setFallbackSubscriptionConsumer(SubscriptionConsumerInterface $fallbackSubscriptionConsumer): void
     {
         $this->fallbackSubscriptionConsumer = $fallbackSubscriptionConsumer;
     }
 
-    private function onEnd(ExtensionInterface $extension, int $startTime, SubscriptionConsumer $subscriptionConsumer = null): void
+    private function onEnd(ExtensionInterface $extension, int $startTime, SubscriptionConsumerInterface $subscriptionConsumer = null): void
     {
         $endTime = (int) (microtime(true) * 1000);
 
@@ -302,7 +302,7 @@ final class QueueConsumer implements QueueConsumerInterface
      *
      * https://github.com/symfony/symfony/blob/cbe289517470eeea27162fd2d523eb29c95f775f/src/Symfony/Component/HttpKernel/EventListener/ExceptionListener.php#L77
      */
-    private function onProcessorException(ExtensionInterface $extension, Message $message, \Exception $exception, int $receivedAt)
+    private function onProcessorException(ExtensionInterface $extension, MessageInterface $message, \Exception $exception, int $receivedAt)
     {
         $processorException = new ProcessorException($this->interopContext, $message, $exception, $receivedAt, $this->logger);
 

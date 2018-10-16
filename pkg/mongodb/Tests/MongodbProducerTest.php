@@ -6,9 +6,9 @@ use Enqueue\Mongodb\MongodbContext;
 use Enqueue\Mongodb\MongodbMessage;
 use Enqueue\Mongodb\MongodbProducer;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\InvalidDestinationException;
-use Interop\Queue\Producer;
+use Interop\Queue\ProducerInterface;
 
 /**
  * @group mongodb
@@ -19,7 +19,7 @@ class MongodbProducerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementProducerInterface()
     {
-        $this->assertClassImplements(Producer::class, MongodbProducer::class);
+        $this->assertClassImplements(ProducerInterface::class, MongodbProducer::class);
     }
 
     public function testCouldBeConstructedWithRequiredArguments()
@@ -50,6 +50,6 @@ class MongodbProducerTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class NotSupportedDestination1 implements Destination
+class NotSupportedDestination1 implements DestinationInterface
 {
 }

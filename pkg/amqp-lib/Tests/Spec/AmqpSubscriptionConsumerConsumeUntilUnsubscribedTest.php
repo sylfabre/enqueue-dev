@@ -5,7 +5,7 @@ namespace Enqueue\AmqpLib\Tests\Spec;
 use Enqueue\AmqpLib\AmqpConnectionFactory;
 use Interop\Amqp\AmqpContext;
 use Interop\Amqp\AmqpQueue;
-use Interop\Queue\Context;
+use Interop\Queue\ContextInterface;
 use Interop\Queue\Spec\SubscriptionConsumerConsumeUntilUnsubscribedSpec;
 
 /**
@@ -42,7 +42,7 @@ class AmqpSubscriptionConsumerConsumeUntilUnsubscribedTest extends SubscriptionC
      *
      * {@inheritdoc}
      */
-    protected function createQueue(Context $context, $queueName)
+    protected function createQueue(ContextInterface $context, $queueName)
     {
         /** @var AmqpQueue $queue */
         $queue = parent::createQueue($context, $queueName);

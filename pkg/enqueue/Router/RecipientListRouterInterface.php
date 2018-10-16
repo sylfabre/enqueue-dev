@@ -2,7 +2,7 @@
 
 namespace Enqueue\Router;
 
-use Interop\Queue\Message as InteropMessage;
+use Interop\Queue\MessageInterface as InteropMessage;
 
 interface RecipientListRouterInterface
 {

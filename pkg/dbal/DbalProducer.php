@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Enqueue\Dbal;
 
 use Doctrine\DBAL\Types\Type;
-use Interop\Queue\Destination;
+use Interop\Queue\DestinationInterface;
 use Interop\Queue\Exception\Exception;
 use Interop\Queue\Exception\InvalidDestinationException;
 use Interop\Queue\Exception\InvalidMessageException;
-use Interop\Queue\Message;
-use Interop\Queue\Producer;
+use Interop\Queue\MessageInterface;
+use Interop\Queue\ProducerInterface;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
 
-class DbalProducer implements Producer
+class DbalProducer implements ProducerInterface
 {
     /**
      * @var int|null
@@ -55,7 +55,7 @@ class DbalProducer implements Producer
      * @param DbalDestination $destination
      * @param DbalMessage     $message
      */
-    public function send(Destination $destination, Message $message): void
+    public function send(DestinationInterface $destination, MessageInterface $message): void
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, DbalDestination::class);
         InvalidMessageException::assertMessageInstanceOf($message, DbalMessage::class);
@@ -138,7 +138,7 @@ class DbalProducer implements Producer
         }
     }
 
-    public function setDeliveryDelay(int $deliveryDelay = null): Producer
+    public function setDeliveryDelay(int $deliveryDelay = null): ProducerInterface
     {
         $this->deliveryDelay = $deliveryDelay;
 
@@ -150,7 +150,7 @@ class DbalProducer implements Producer
         return $this->deliveryDelay;
     }
 
-    public function setPriority(int $priority = null): Producer
+    public function setPriority(int $priority = null): ProducerInterface
     {
         $this->priority = $priority;
 
@@ -162,7 +162,7 @@ class DbalProducer implements Producer
         return $this->priority;
     }
 
-    public function setTimeToLive(int $timeToLive = null): Producer
+    public function setTimeToLive(int $timeToLive = null): ProducerInterface
     {
         $this->timeToLive = $timeToLive;
 

@@ -13,10 +13,10 @@ use Enqueue\RdKafka\RdKafkaMessage;
 use Enqueue\RdKafka\RdKafkaProducer;
 use Enqueue\RdKafka\RdKafkaTopic;
 use Enqueue\Test\ClassExtensionTrait;
-use Interop\Queue\Context;
-use Interop\Queue\Message as InteropMessage;
-use Interop\Queue\Producer as InteropProducer;
-use Interop\Queue\Queue as InteropQueue;
+use Interop\Queue\ContextInterface;
+use Interop\Queue\MessageInterface as InteropMessage;
+use Interop\Queue\ProducerInterface as InteropProducer;
+use Interop\Queue\QueueInterface as InteropQueue;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -81,7 +81,7 @@ class RdKafkaDriverTest extends TestCase
     /**
      * @return RdKafkaContext
      */
-    protected function createContextMock(): Context
+    protected function createContextMock(): ContextInterface
     {
         return $this->createMock(RdKafkaContext::class);
     }
